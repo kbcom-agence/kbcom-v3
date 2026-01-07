@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(npx bmad-method install)",
+      "Bash(npx bmad-method install:*)",
+      "Bash(dir:*)",
+      "WebFetch(domain:whenevr.framer.website)",
+      "Skill(BMad:tasks:create-next-story)",
+      "Bash(node --version:*)",
+      "Bash(npm --version)",
+      "Bash(npm install:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npx husky init)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
