@@ -1,5 +1,9 @@
 # KB-COM Website - Next.js 15
 
+[![CI](https://github.com/kbcom-agence/kbcom-v3/workflows/CI/badge.svg)](https://github.com/kbcom-agence/kbcom-v3/actions/workflows/ci.yml)
+[![Lighthouse CI](https://github.com/kbcom-agence/kbcom-v3/workflows/Lighthouse%20CI/badge.svg)](https://github.com/kbcom-agence/kbcom-v3/actions/workflows/lighthouse-ci.yml)
+[![Vercel](https://vercelbadge.vercel.app/api/kbcom-agence/kbcom-v3)](https://vercel.com)
+
 > Agence Web à Tours - Création de sites internet performants et référencés
 
 ## 📋 Description
@@ -156,11 +160,12 @@ _(À implémenter - Story 1.2+)_
 
 ## 🚀 Déploiement
 
-_(À configurer - Story 1.2)_
+✅ **Configuré et actif**
 
 - **Platform** : Vercel
 - **Production** : Déploiement automatique depuis `main`
 - **Preview** : Déploiement automatique pour chaque PR
+- **Repository** : [github.com/kbcom-agence/kbcom-v3](https://github.com/kbcom-agence/kbcom-v3)
 
 ## 📝 Méthodologie
 
