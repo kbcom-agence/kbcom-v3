@@ -13,7 +13,9 @@
       "Bash(npx shadcn@latest add:*)",
       "Bash(npx husky init)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run build:*)"
     ]
   }
 }
