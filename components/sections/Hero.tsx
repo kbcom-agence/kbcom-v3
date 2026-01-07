@@ -12,9 +12,7 @@ export function Hero() {
         <h1 className="mb-6 text-4xl leading-tight font-bold text-white md:text-5xl lg:text-6xl">
           Votre Agence Web à Tours
           <br />
-          <span className="text-primary-contrast">
-            Création de Sites Internet Performants & Référencés
-          </span>
+          <span className="text-white">Création de Sites Internet Performants & Référencés</span>
         </h1>
 
         <p className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-white/90 md:text-xl">
