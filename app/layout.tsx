@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { generateDefaultMetadata } from '@/lib/seo/metadata';
 import { generateOrganizationSchema } from '@/lib/seo/structured-data';
+import { LayoutWrapper } from '@/components/layout/LayoutWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,7 +25,7 @@ export default function RootLayout({
             __html: JSON.stringify(organizationSchema),
           }}
         />
-        {children}
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
