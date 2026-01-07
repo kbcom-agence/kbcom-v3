@@ -16,7 +16,15 @@
       "Bash(git commit:*)",
       "Bash(npm test:*)",
       "Bash(npm run build:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(git push:*)",
+      "Bash(node:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(timeout /t 30 /nobreak)",
+      "Bash(del appicon.tsx appapple-icon.tsx)",
+      "Bash(git stash:*)"
     ]
   }
 }
