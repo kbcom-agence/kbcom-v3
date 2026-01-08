@@ -1,4 +1,7 @@
-import { CheckCircle, Zap, Award, Users } from 'lucide-react';
+'use client';
+
+import { Zap, Award, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const benefits = [
   {
@@ -23,30 +26,84 @@ const benefits = [
 
 export function WhyKBCOM() {
   return (
-    <section className="bg-gray-50 py-24">
+    <section className="gradient-mesh relative overflow-hidden py-32">
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
-        <h2 className="mb-16 text-center text-3xl font-bold text-gray-900 md:text-4xl">
-          Pourquoi Choisir KB-COM ?
-        </h2>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-20 text-center"
+        >
+          <h2 className="mb-6 text-4xl font-black tracking-tight text-gray-900 md:text-6xl">
+            Pourquoi Choisir{' '}
+            <span className="from-primary to-accent bg-gradient-to-r bg-clip-text text-transparent">
+              KB-COM
+            </span>{' '}
+            ?
+          </h2>
+          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+            Une expertise reconnue au service de votre réussite digitale
+          </p>
+        </motion.div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {benefits.map((benefit) => {
+          {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             return (
-              <div
+              <motion.div
                 key={benefit.title}
-                className="flex flex-col items-center rounded-2xl bg-white p-8 text-center shadow-sm transition-shadow duration-300 hover:shadow-md"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                whileHover={{ scale: 1.02 }}
+                className="group hover:border-primary/20 relative overflow-hidden rounded-3xl border border-gray-200 bg-white p-10 text-center shadow-lg transition-all duration-300 hover:shadow-2xl"
               >
-                <div className="bg-primary/10 mb-4 rounded-full p-4">
-                  <Icon className="text-primary h-8 w-8" />
-                </div>
+                {/* Animated gradient background */}
+                <motion.div
+                  className="from-primary/0 via-accent/0 to-primary/0 absolute inset-0 -z-10 bg-gradient-to-br opacity-0 transition-opacity duration-500"
+                  whileHover={{ opacity: 0.05 }}
+                />
 
-                <h3 className="mb-3 text-xl font-semibold text-gray-900">{benefit.title}</h3>
+                {/* Icon with gradient background */}
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.15 + 0.2 }}
+                  className="from-primary to-accent mx-auto mb-6 inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br shadow-lg"
+                >
+                  <Icon className="h-10 w-10 text-white" />
+                </motion.div>
 
+                {/* Title */}
+                <h3 className="mb-4 text-2xl font-bold text-gray-900">{benefit.title}</h3>
+
+                {/* Description */}
                 <p className="leading-relaxed text-gray-600">{benefit.description}</p>
 
-                <CheckCircle className="mt-4 h-6 w-6 text-green-500" />
-              </div>
+                {/* Check icon */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: index * 0.15 + 0.4 }}
+                  className="mt-6"
+                >
+                  <svg
+                    className="text-success mx-auto h-8 w-8"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </motion.div>
+              </motion.div>
             );
           })}
         </div>

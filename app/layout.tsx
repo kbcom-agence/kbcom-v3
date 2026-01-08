@@ -5,7 +5,12 @@ import { generateDefaultMetadata } from '@/lib/seo/metadata';
 import { generateOrganizationSchema } from '@/lib/seo/structured-data';
 import { LayoutWrapper } from '@/components/layout/LayoutWrapper';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = generateDefaultMetadata();
 
@@ -18,7 +23,7 @@ export default function RootLayout({
 
   return (
     <html lang="fr">
-      <body className={inter.className}>
+      <body className={`${inter.variable} font-sans antialiased`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

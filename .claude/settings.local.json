@@ -24,7 +24,9 @@
       "Bash(npm run type-check:*)",
       "Bash(timeout /t 30 /nobreak)",
       "Bash(del appicon.tsx appapple-icon.tsx)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "WebFetch(domain:kbcom-v3.vercel.app)",
+      "Bash(timeout 10 npm run dev:*)"
     ]
   }
 }

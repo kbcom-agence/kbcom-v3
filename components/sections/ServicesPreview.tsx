@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import { Monitor, ShoppingCart, TrendingUp, Settings, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const services = [
   {
@@ -34,36 +37,65 @@ const services = [
 
 export function ServicesPreview() {
   return (
-    <section className="bg-white py-24">
+    <section className="relative overflow-hidden bg-white py-32">
+      {/* Background decoration */}
+      <div className="absolute inset-0 -z-10 opacity-50">
+        <div className="bg-primary/5 absolute top-20 right-20 h-72 w-72 rounded-full blur-3xl" />
+        <div className="bg-accent/5 absolute bottom-20 left-20 h-72 w-72 rounded-full blur-3xl" />
+      </div>
+
       <div className="container mx-auto px-4 md:px-8 lg:px-12">
-        <h2 className="mb-16 text-center text-3xl font-bold text-gray-900 md:text-4xl">
-          Nos Services Web
-        </h2>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-20 text-center"
+        >
+          <h2 className="mb-6 text-4xl font-black tracking-tight text-gray-900 md:text-6xl">
+            Nos Services <span className="text-primary italic">Web</span>
+          </h2>
+          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+            Des solutions web complètes pour propulser votre business en ligne
+          </p>
+        </motion.div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {services.map((service) => {
+          {services.map((service, index) => {
             const Icon = service.icon;
             return (
-              <div
+              <motion.div
                 key={service.title}
-                className="group hover:border-primary rounded-2xl border border-gray-300 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+                className="group hover:border-primary/30 relative overflow-hidden rounded-3xl border border-gray-200 bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-2xl"
               >
-                <div className="mb-4">
-                  <Icon className="text-primary h-12 w-12" />
+                {/* Gradient overlay on hover */}
+                <div className="from-primary/0 to-accent/0 group-hover:from-primary/5 group-hover:to-accent/5 absolute inset-0 -z-10 bg-gradient-to-br opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+                {/* Icon */}
+                <div className="from-primary/10 to-accent/10 mb-6 inline-flex rounded-2xl bg-gradient-to-br p-4 transition-transform duration-300 group-hover:scale-110">
+                  <Icon className="text-primary h-8 w-8" />
                 </div>
 
-                <h3 className="mb-3 text-xl font-semibold text-gray-900">{service.title}</h3>
+                {/* Title */}
+                <h3 className="mb-4 text-xl font-bold text-gray-900">{service.title}</h3>
 
+                {/* Description */}
                 <p className="mb-6 leading-relaxed text-gray-600">{service.description}</p>
 
+                {/* Link */}
                 <Link
                   href={service.href}
-                  className="text-primary focus-visible:outline-primary-light inline-flex items-center gap-2 rounded font-medium transition-all duration-300 hover:gap-3 focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="text-primary inline-flex items-center gap-2 font-semibold transition-all duration-300 group-hover:gap-3"
                 >
                   En savoir plus
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-5 w-5" />
                 </Link>
-              </div>
+              </motion.div>
             );
           })}
         </div>
