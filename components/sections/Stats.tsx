@@ -20,7 +20,7 @@ export function Stats() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-12">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="mb-2 text-5xl font-bold text-[#3a67ff] md:text-6xl">{stat.value}</div>
+              <div className="text-primary mb-2 text-5xl font-bold md:text-6xl">{stat.value}</div>
               <div className="text-sm font-medium tracking-wider text-gray-600 uppercase md:text-base">
                 {stat.label}
               </div>

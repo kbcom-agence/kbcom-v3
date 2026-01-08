@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#3a67ff] via-[#3a67ff] to-[#6b8aff]">
+    <section className="from-primary via-primary to-primary-light relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br">
       {/* Background overlay for better text contrast */}
       <div className="absolute inset-0 bg-black/10" />
 
@@ -25,7 +25,7 @@ export function Hero() {
           {/* Primary CTA */}
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3 text-base font-semibold text-[#3a67ff] transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-50 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="text-primary inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3 text-base font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-50 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Demander un Devis Gratuit
             <ArrowRight className="h-5 w-5" />
@@ -34,7 +34,7 @@ export function Hero() {
           {/* Secondary CTA */}
           <Link
             href="/portfolio"
-            className="inline-flex items-center gap-2 rounded-xl border-2 border-white bg-transparent px-8 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-white hover:text-[#3a67ff] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="hover:text-primary inline-flex items-center gap-2 rounded-xl border-2 border-white bg-transparent px-8 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Voir Nos Réalisations
             <ArrowRight className="h-5 w-5" />

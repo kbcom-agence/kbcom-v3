@@ -37,8 +37,8 @@ export function WhyKBCOM() {
                 key={benefit.title}
                 className="flex flex-col items-center rounded-2xl bg-white p-8 text-center shadow-sm transition-shadow duration-300 hover:shadow-md"
               >
-                <div className="mb-4 rounded-full bg-[#3a67ff]/10 p-4">
-                  <Icon className="h-8 w-8 text-[#3a67ff]" />
+                <div className="bg-primary/10 mb-4 rounded-full p-4">
+                  <Icon className="text-primary h-8 w-8" />
                 </div>
 
                 <h3 className="mb-3 text-xl font-semibold text-gray-900">{benefit.title}</h3>

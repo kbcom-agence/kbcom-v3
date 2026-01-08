@@ -46,10 +46,10 @@ export function ServicesPreview() {
             return (
               <div
                 key={service.title}
-                className="group rounded-2xl border border-gray-300 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#3a67ff] hover:shadow-lg"
+                className="group hover:border-primary rounded-2xl border border-gray-300 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="mb-4">
-                  <Icon className="h-12 w-12 text-[#3a67ff]" />
+                  <Icon className="text-primary h-12 w-12" />
                 </div>
 
                 <h3 className="mb-3 text-xl font-semibold text-gray-900">{service.title}</h3>
@@ -58,7 +58,7 @@ export function ServicesPreview() {
 
                 <Link
                   href={service.href}
-                  className="inline-flex items-center gap-2 rounded font-medium text-[#3a67ff] transition-all duration-300 hover:gap-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6b8aff]"
+                  className="text-primary focus-visible:outline-primary-light inline-flex items-center gap-2 rounded font-medium transition-all duration-300 hover:gap-3 focus-visible:outline-2 focus-visible:outline-offset-2"
                 >
                   En savoir plus
                   <ArrowRight className="h-4 w-4" />
