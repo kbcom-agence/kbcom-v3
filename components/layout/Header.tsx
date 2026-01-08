@@ -61,17 +61,17 @@ export function Header({ onMenuClick }: HeaderProps) {
 
       <header className={headerClasses}>
         <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-8">
-          {/* Logo KB dans un cercle */}
+          {/* Logo KB */}
           <Link
             href="/"
             aria-label="KB-COM - Retour à l'accueil"
-            className="focus-visible:outline-primary-light flex items-center rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="focus-visible:outline-primary-light flex items-center transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2"
           >
-            <div className="bg-primary flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition-transform duration-300 hover:scale-110">
-              <span className="font-['Cal_Sans',Inter,sans-serif] text-2xl font-black text-white">
-                KB
-              </span>
-            </div>
+            <img
+              src="/images/kb-logo.svg"
+              alt="KB-COM Logo"
+              className="h-12 w-12 transition-transform duration-300 hover:scale-110"
+            />
           </Link>
 
           {/* Desktop Navigation */}

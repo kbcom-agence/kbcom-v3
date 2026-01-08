@@ -1,8 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
 
 export function Hero() {
   return (
@@ -76,20 +75,19 @@ export function Hero() {
           clients —aucun compromis, aucun délai.
         </motion.p>
 
-        {/* CTA Button */}
+        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mb-20 flex justify-center"
+          className="mb-20 flex flex-wrap justify-center gap-4"
         >
-          <Link
-            href="/contact"
-            className="group inline-flex items-center gap-2 rounded-full bg-gray-900 px-8 py-4 font-semibold text-white transition-all duration-300 hover:bg-gray-800 hover:shadow-lg"
-          >
+          <Button href="/contact" variant="gradient">
             Démarrer un Projet
-            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-          </Link>
+          </Button>
+          <Button href="/portfolio" variant="dark" icon={false}>
+            Voir Nos Réalisations
+          </Button>
         </motion.div>
 
         {/* SEO Keywords - Hidden but present */}
