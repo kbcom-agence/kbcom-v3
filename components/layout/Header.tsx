@@ -3,33 +3,51 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
-import { ChevronDown, Menu, Phone } from 'lucide-react';
-import { navItems, contactInfo } from '@/lib/navigation';
+import { ChevronDown, Menu } from 'lucide-react';
+import { navItems } from '@/lib/navigation';
 
 interface HeaderProps {
   onMenuClick: () => void;
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('up');
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isAtTop, setIsAtTop] = useState(true);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      const currentScrollY = window.scrollY;
+
+      // Détermine si on est en haut de la page
+      setIsAtTop(currentScrollY < 50);
+
+      // Détermine la direction du scroll
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setScrollDirection('down');
+      } else {
+        setScrollDirection('up');
+      }
+
+      setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   const isActive = (href: string) => pathname === href;
 
   const handleDropdownToggle = (label: string) => {
     setOpenDropdown(openDropdown === label ? null : label);
   };
+
+  // Header disparaît quand on scroll vers le bas, apparaît quand on scroll vers le haut
+  const headerClasses = `fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
+    scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'
+  } ${isAtTop ? 'bg-transparent' : 'bg-white/95 backdrop-blur-md shadow-sm'}`;
 
   return (
     <>
@@ -41,26 +59,19 @@ export function Header({ onMenuClick }: HeaderProps) {
         Aller au contenu principal
       </a>
 
-      <header
-        className={`fixed top-0 right-0 left-0 z-40 transition-all duration-300 ${
-          isScrolled ? 'h-16 bg-white shadow-md' : 'h-20 bg-transparent md:bg-white md:shadow-sm'
-        }`}
-      >
-        <div className="container mx-auto flex h-full items-center justify-between px-4">
-          {/* Logo */}
+      <header className={headerClasses}>
+        <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-8">
+          {/* Logo KB dans un cercle */}
           <Link
             href="/"
             aria-label="KB-COM - Retour à l'accueil"
-            className="focus-visible:outline-primary-light flex items-center rounded-lg transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="focus-visible:outline-primary-light flex items-center rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2"
           >
-            <Image
-              src="/assets/logo/kbcom_logo_dark.svg"
-              alt="KB-COM Logo"
-              width={isScrolled ? 160 : 192}
-              height={isScrolled ? 40 : 48}
-              priority
-              className="transition-all duration-300"
-            />
+            <div className="bg-primary flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition-transform duration-300 hover:scale-110">
+              <span className="font-['Cal_Sans',Inter,sans-serif] text-2xl font-black text-white">
+                KB
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -77,8 +88,12 @@ export function Header({ onMenuClick }: HeaderProps) {
                       aria-label={`Menu ${item.label}`}
                       aria-expanded={openDropdown === item.label}
                       aria-haspopup="true"
-                      className={`hover:text-primary focus-visible:outline-primary-light flex items-center gap-1 rounded-lg px-4 py-2 text-base font-medium text-gray-900 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
-                        isActive(item.href) ? 'text-primary' : ''
+                      className={`hover:text-primary focus-visible:outline-primary-light flex items-center gap-1 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                        isActive(item.href)
+                          ? 'text-primary'
+                          : isAtTop
+                            ? 'text-gray-900'
+                            : 'text-gray-900'
                       }`}
                     >
                       {item.label}
@@ -94,7 +109,7 @@ export function Header({ onMenuClick }: HeaderProps) {
                       <div
                         onMouseEnter={() => setOpenDropdown(item.label)}
                         onMouseLeave={() => setOpenDropdown(null)}
-                        className="absolute top-full left-0 z-50 mt-1 min-w-[240px] rounded-lg border border-gray-200 bg-white py-2 shadow-lg"
+                        className="absolute top-full left-0 z-50 mt-1 min-w-[240px] rounded-xl border border-gray-200 bg-white py-2 shadow-xl"
                       >
                         {item.dropdown.map((subItem) => (
                           <Link
@@ -115,8 +130,12 @@ export function Header({ onMenuClick }: HeaderProps) {
                   // Regular nav link
                   <Link
                     href={item.href}
-                    className={`hover:text-primary focus-visible:outline-primary-light block rounded-lg px-4 py-2 text-base font-medium text-gray-900 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
-                      isActive(item.href) ? 'text-primary border-primary border-b-2' : ''
+                    className={`hover:text-primary focus-visible:outline-primary-light block rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                      isActive(item.href)
+                        ? 'text-primary'
+                        : isAtTop
+                          ? 'text-gray-900'
+                          : 'text-gray-900'
                     }`}
                     aria-current={isActive(item.href) ? 'page' : undefined}
                   >
@@ -127,22 +146,12 @@ export function Header({ onMenuClick }: HeaderProps) {
             ))}
           </nav>
 
-          {/* Right side: Phone + Contact button + Hamburger */}
+          {/* Right side: Contact CTA + Hamburger */}
           <div className="flex items-center gap-3">
-            {/* Phone number (hidden on mobile) */}
-            <a
-              href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}
-              className="hover:text-primary focus-visible:outline-primary-light hidden items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 lg:flex"
-              aria-label={`Appeler ${contactInfo.phone}`}
-            >
-              <Phone className="h-4 w-4" />
-              <span>{contactInfo.phone}</span>
-            </a>
-
             {/* Contact CTA button (hidden on mobile) */}
             <Link
               href="/contact"
-              className="bg-primary hover:bg-primary-dark focus-visible:outline-primary-light hidden items-center rounded-xl px-6 py-2.5 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 md:inline-flex"
+              className="bg-primary hover:bg-primary-dark focus-visible:outline-primary-light hidden items-center rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 md:inline-flex"
             >
               Contact
             </Link>
@@ -161,7 +170,7 @@ export function Header({ onMenuClick }: HeaderProps) {
       </header>
 
       {/* Spacer to prevent content from going under fixed header */}
-      <div className={isScrolled ? 'h-16' : 'h-20'} />
+      <div className="h-20" />
     </>
   );
 }
