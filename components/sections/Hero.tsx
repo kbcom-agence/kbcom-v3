@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen bg-white px-4 pt-32 pb-48 md:px-8 md:pb-64 lg:px-12">
+    <section className="relative min-h-screen bg-white px-4 pt-32 pb-72 md:px-8 md:pb-80 lg:px-12">
       <div className="container mx-auto max-w-6xl">
         {/* Trust Badge */}
         <motion.div

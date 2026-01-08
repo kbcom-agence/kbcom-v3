@@ -91,7 +91,7 @@ export function PortfolioCarousel() {
   };
 
   return (
-    <section className="relative -mt-32 mb-16 overflow-hidden py-20 md:-mt-48 md:py-32">
+    <section className="relative -mt-48 mb-16 overflow-hidden py-20 md:-mt-56 md:py-32">
       {/* Gradient fade top */}
       <div className="pointer-events-none absolute top-0 right-0 left-0 z-10 h-32 bg-gradient-to-b from-white to-transparent" />
 
