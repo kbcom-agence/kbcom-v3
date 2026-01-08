@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Hero } from '@/components/sections/Hero';
+import { PortfolioCarousel } from '@/components/sections/PortfolioCarousel';
 import { TrustBar } from '@/components/sections/TrustBar';
 import { ServicesPreview } from '@/components/sections/ServicesPreview';
 import { WhyKBCOM } from '@/components/sections/WhyKBCOM';
@@ -47,6 +48,7 @@ export default function HomePage() {
 
       <main>
         <Hero />
+        <PortfolioCarousel />
         <TrustBar />
         <ServicesPreview />
         <WhyKBCOM />

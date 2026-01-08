@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Cal Sans Font - Using similar alternative for now (will need actual Cal Sans files) */
+@font-face {
+  font-family: 'Cal Sans';
+  src: local('Inter'), local('sans-serif');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   /* Colors - Framer style */
   --color-primary: #3a67ff;
