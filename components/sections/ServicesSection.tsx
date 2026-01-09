@@ -4,14 +4,19 @@ import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { Monitor, ShoppingCart, TrendingUp, Smartphone, ArrowRight } from 'lucide-react';
-import Image from 'next/image';
+import { useRive } from '@rive-app/react-canvas';
 
 const services = [
   {
     id: 'sites-web',
     icon: Monitor,
     label: 'Sites Web',
-    title: 'Des sites web qui captent et convertissent',
+    title: (color: string) => (
+      <>
+        Des sites web qui <span style={{ color }}>captent</span> et{' '}
+        <span style={{ color }}>convertissent</span>
+      </>
+    ),
     description: (color: string) => (
       <>
         Sites vitrine et corporate <span style={{ color }}>sur mesure</span>. Design unique,{' '}
@@ -21,7 +26,7 @@ const services = [
     ),
     cta: 'Découvrir nos créations',
     href: '/services/creation-sites-web',
-    image: '/images/services/web-design.svg',
+    riveFile: '/animations/website-animation.riv',
     color: {
       primary: '#3b82f6',
       secondary: '#8b5cf6',
@@ -33,7 +38,11 @@ const services = [
     id: 'e-commerce',
     icon: ShoppingCart,
     label: 'E-Commerce',
-    title: 'Boutiques en ligne haute performance',
+    title: (color: string) => (
+      <>
+        Boutiques en ligne <span style={{ color }}>haute performance</span>
+      </>
+    ),
     description: (color: string) => (
       <>
         Expérience d&apos;achat <span style={{ color }}>fluide</span> qui transforme les visiteurs
@@ -43,7 +52,7 @@ const services = [
     ),
     cta: 'Booster vos ventes',
     href: '/services/e-commerce',
-    image: '/images/services/ecommerce.svg',
+    riveFile: '/animations/ecommerce-animation.riv',
     color: {
       primary: '#8b5cf6',
       secondary: '#ec4899',
@@ -55,7 +64,11 @@ const services = [
     id: 'seo',
     icon: TrendingUp,
     label: 'SEO & Référencement',
-    title: 'Dominez Google sur vos mots-clés',
+    title: (color: string) => (
+      <>
+        <span style={{ color }}>Dominez Google</span> sur vos mots-clés
+      </>
+    ),
     description: (color: string) => (
       <>
         Stratégies SEO complètes pour atteindre le <span style={{ color }}>Top 3</span>. Audit
@@ -65,7 +78,7 @@ const services = [
     ),
     cta: 'Grimper dans Google',
     href: '/services/seo-referencement',
-    image: '/images/services/seo.svg',
+    riveFile: '/animations/seo-animation.riv',
     color: {
       primary: '#06b6d4',
       secondary: '#3b82f6',
@@ -77,7 +90,11 @@ const services = [
     id: 'apps',
     icon: Smartphone,
     label: 'Applications',
-    title: 'Solutions digitales sur mesure',
+    title: (color: string) => (
+      <>
+        Solutions digitales <span style={{ color }}>sur mesure</span>
+      </>
+    ),
     description: (color: string) => (
       <>
         Applications web et mobile <span style={{ color }}>complexes</span>. SaaS, CRM, plateformes
@@ -87,7 +104,7 @@ const services = [
     ),
     cta: 'Créer votre app',
     href: '/services/applications-web',
-    image: '/images/services/app-dev.svg',
+    riveFile: '/animations/app-animation.riv',
     color: {
       primary: '#10b981',
       secondary: '#06b6d4',
@@ -102,6 +119,32 @@ const fadeUpTransition = {
   animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
   exit: { opacity: 0, y: -20, filter: 'blur(10px)' },
 };
+
+function RiveAnimation({ src, color }: { src: string; color: { primary: string } }) {
+  const { RiveComponent, rive } = useRive({
+    src,
+    autoplay: true,
+    stateMachines: 'State Machine 1',
+  });
+
+  return (
+    <div className="relative h-full w-full">
+      {/* Fallback pendant le chargement */}
+      {!rive && (
+        <div className="flex h-full w-full items-center justify-center">
+          <div
+            className="h-32 w-32 animate-pulse rounded-3xl opacity-10"
+            style={{ backgroundColor: color.primary }}
+          />
+        </div>
+      )}
+      {/* Canvas Rive */}
+      <div className={`h-full w-full ${!rive ? 'hidden' : ''}`}>
+        <RiveComponent />
+      </div>
+    </div>
+  );
+}
 
 export function ServicesSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -186,7 +229,7 @@ export function ServicesSection() {
                   transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                   className="mb-6 text-4xl leading-[1.1] font-semibold tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
                 >
-                  {activeService.title}
+                  {activeService.title(activeService.color.primary)}
                 </motion.h2>
               </AnimatePresence>
 
@@ -203,7 +246,7 @@ export function ServicesSection() {
               </AnimatePresence>
 
               <AnimatePresence mode="wait">
-                {/* CTA Button - Hero style with service colors */}
+                {/* CTA Button - Même style que Hero avec couleurs du service */}
                 <motion.div
                   key={`cta-${activeIndex}`}
                   {...fadeUpTransition}
@@ -211,11 +254,16 @@ export function ServicesSection() {
                 >
                   <Link
                     href={activeService.href}
-                    className="group inline-flex items-center gap-2 rounded-full border-2 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl"
+                    className="group inline-flex items-center gap-2 rounded-full border-2 border-white/30 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:border-white/50 hover:shadow-lg"
                     style={{
-                      background: `linear-gradient(to bottom, ${activeService.color.primary}, ${activeService.color.secondary})`,
-                      borderColor: 'rgba(255, 255, 255, 0.3)',
-                      boxShadow: `0 10px 30px -10px ${activeService.color.primary}60`,
+                      background: `linear-gradient(to bottom, ${activeService.color.light}, ${activeService.color.primary}, ${activeService.color.secondary})`,
+                      boxShadow: `0 10px 30px -10px ${activeService.color.primary}66`,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.boxShadow = `0 15px 40px -10px ${activeService.color.primary}88`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.boxShadow = `0 10px 30px -10px ${activeService.color.primary}66`;
                     }}
                   >
                     {activeService.cta}
@@ -255,67 +303,32 @@ export function ServicesSection() {
               </div>
             </div>
 
-            {/* Right side - Animated Visual */}
+            {/* Right side - Rive Animation */}
             <div className="relative hidden lg:block">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`visual-${activeIndex}`}
-                  initial={{ opacity: 0, scale: 0.95, rotateY: -15 }}
-                  animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, rotateY: 15 }}
-                  transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="relative aspect-square overflow-hidden rounded-3xl bg-white shadow-2xl"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="relative aspect-square overflow-hidden rounded-3xl bg-white/50 backdrop-blur-sm"
                   style={{
                     boxShadow: `0 25px 70px -20px ${activeService.color.primary}40`,
-                    transformStyle: 'preserve-3d',
                   }}
                 >
-                  {/* Subtle gradient overlay */}
+                  {/* Subtle gradient background */}
                   <div
                     className={`absolute inset-0 bg-gradient-to-br ${activeService.color.bg} opacity-5`}
                   />
 
-                  {/* Animated decorative circles */}
-                  <motion.div
-                    className="absolute -top-20 -left-20 h-64 w-64 rounded-full opacity-20 blur-3xl"
-                    style={{ backgroundColor: activeService.color.primary }}
-                    animate={{
-                      scale: [1, 1.2, 1],
-                      opacity: [0.2, 0.3, 0.2],
-                    }}
-                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  />
-                  <motion.div
-                    className="absolute -right-20 -bottom-20 h-64 w-64 rounded-full opacity-20 blur-3xl"
-                    style={{ backgroundColor: activeService.color.secondary }}
-                    animate={{
-                      scale: [1.2, 1, 1.2],
-                      opacity: [0.3, 0.2, 0.3],
-                    }}
-                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  />
+                  {/* Rive animation container */}
+                  <div className="absolute inset-0 flex items-center justify-center p-12">
+                    <RiveAnimation src={activeService.riveFile} color={activeService.color} />
+                  </div>
 
-                  {/* Image container with animation */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center p-16"
-                    animate={{
-                      y: [0, -10, 0],
-                    }}
-                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    <div className="relative h-full w-full">
-                      <Image
-                        src={activeService.image}
-                        alt={activeService.label}
-                        fill
-                        className="object-contain drop-shadow-2xl"
-                        priority
-                      />
-                    </div>
-                  </motion.div>
-
-                  {/* Minimal progress indicator */}
-                  <div className="absolute right-6 bottom-6 rounded-full bg-white px-4 py-2 shadow-lg">
+                  {/* Progress indicator */}
+                  <div className="absolute right-6 bottom-6 rounded-full bg-white px-4 py-2 shadow-lg backdrop-blur-sm">
                     <span
                       className="text-xs font-semibold"
                       style={{ color: activeService.color.primary }}
