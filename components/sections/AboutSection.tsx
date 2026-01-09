@@ -2,7 +2,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { MapPin, ArrowRight } from 'lucide-react';
+import { MapPin, ArrowRight, Users } from 'lucide-react';
 import Link from 'next/link';
 
 const badges = [
@@ -27,22 +27,22 @@ export function AboutSection() {
       />
 
       <div className="relative z-10 container mx-auto px-6 md:px-12 lg:px-20">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left side - Text content */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            {/* Badge */}
+            {/* Badge - Colored style */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="mb-6"
             >
-              <span className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-lg">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />À propos de nous
+              <span className="bg-primary/10 text-primary inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-sm">
+                <Users className="h-4 w-4" />À propos de nous
               </span>
             </motion.div>
 
@@ -108,7 +108,7 @@ export function AboutSection() {
             >
               <Link
                 href="/contact"
-                className="group inline-flex items-center gap-2 rounded-full bg-gray-900 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-xl"
+                className="text-primary border-primary/20 bg-primary/5 hover:bg-primary/10 group inline-flex items-center gap-2 rounded-full border px-6 py-3 font-semibold shadow-sm transition-all duration-300 hover:shadow-md"
               >
                 Discutons de votre projet
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -125,8 +125,11 @@ export function AboutSection() {
           >
             {/* Video container with border style */}
             <div className="relative overflow-hidden rounded-3xl border border-gray-200 bg-white p-2 shadow-2xl">
-              {/* Inner video wrapper */}
-              <div className="relative aspect-video overflow-hidden rounded-2xl bg-gray-900">
+              {/* Inner video wrapper - taller aspect ratio */}
+              <div
+                className="relative overflow-hidden rounded-2xl bg-gray-900"
+                style={{ paddingBottom: '75%' }}
+              >
                 <iframe
                   src="https://www.youtube.com/embed/wNseBcjqhAw?rel=0&modestbranding=1"
                   title="KB-COM Présentation"
@@ -136,12 +139,12 @@ export function AboutSection() {
                 />
               </div>
 
-              {/* Decorative badge on video */}
+              {/* Decorative badge on video - Colored */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.5, delay: 0.8 }}
-                className="absolute -top-3 -right-3 rounded-full bg-gray-900 px-4 py-2 text-xs font-semibold text-white shadow-lg"
+                className="bg-primary/10 text-primary absolute -top-3 -right-3 rounded-full px-4 py-2 text-xs font-semibold shadow-md"
               >
                 🎬 Notre vision
               </motion.div>

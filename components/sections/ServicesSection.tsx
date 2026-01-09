@@ -33,6 +33,31 @@ const services = [
     },
   },
   {
+    id: 'e-commerce',
+    icon: ShoppingCart,
+    label: 'E-Commerce',
+    title: (color: string) => (
+      <>
+        Boutiques en ligne <span style={{ color }}>haute performance</span>
+      </>
+    ),
+    description: (color: string) => (
+      <>
+        Expérience d&apos;achat <span style={{ color }}>fluide</span> qui transforme les visiteurs
+        en clients. <span style={{ color }}>Paiements sécurisés</span>, gestion simplifiée,
+        analytics avancés pour <span style={{ color }}>maximiser vos ventes</span>.
+      </>
+    ),
+    cta: 'Booster vos ventes',
+    href: '/services/e-commerce',
+    color: {
+      primary: '#8b5cf6',
+      secondary: '#ec4899',
+      bg: 'from-violet-400 via-purple-500 to-pink-500',
+      light: '#ede9fe',
+    },
+  },
+  {
     id: 'seo',
     icon: TrendingUp,
     label: 'SEO & Référencement',
@@ -80,31 +105,6 @@ const services = [
       secondary: '#06b6d4',
       bg: 'from-emerald-400 via-teal-500 to-cyan-500',
       light: '#d1fae5',
-    },
-  },
-  {
-    id: 'e-commerce',
-    icon: ShoppingCart,
-    label: 'E-Commerce',
-    title: (color: string) => (
-      <>
-        Boutiques en ligne <span style={{ color }}>haute performance</span>
-      </>
-    ),
-    description: (color: string) => (
-      <>
-        Expérience d&apos;achat <span style={{ color }}>fluide</span> qui transforme les visiteurs
-        en clients. <span style={{ color }}>Paiements sécurisés</span>, gestion simplifiée,
-        analytics avancés pour <span style={{ color }}>maximiser vos ventes</span>.
-      </>
-    ),
-    cta: 'Booster vos ventes',
-    href: '/services/e-commerce',
-    color: {
-      primary: '#8b5cf6',
-      secondary: '#ec4899',
-      bg: 'from-violet-400 via-purple-500 to-pink-500',
-      light: '#ede9fe',
     },
   },
 ];
@@ -165,7 +165,7 @@ export function ServicesSection() {
             {/* Left side - Text content */}
             <div className="max-w-xl">
               <AnimatePresence mode="wait">
-                {/* Service badge - Dark style */}
+                {/* Service badge - Colored style */}
                 <motion.div
                   key={`label-${activeIndex}`}
                   initial={{ opacity: 0, y: -10 }}
@@ -174,11 +174,14 @@ export function ServicesSection() {
                   transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
                   className="mb-6"
                 >
-                  <span className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-lg">
-                    <span
-                      className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: activeService.color.primary }}
-                    />
+                  <span
+                    className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-md"
+                    style={{
+                      backgroundColor: activeService.color.light,
+                      color: activeService.color.primary,
+                    }}
+                  >
+                    <ActiveIcon className="h-4 w-4" />
                     {activeService.label}
                   </span>
                 </motion.div>
