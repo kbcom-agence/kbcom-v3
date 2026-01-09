@@ -92,9 +92,6 @@ export function PortfolioCarousel() {
 
   return (
     <section className="relative -mt-4 mb-16 overflow-hidden py-4 md:-mt-6 md:py-8">
-      {/* Gradient fade top */}
-      <div className="pointer-events-none absolute top-0 right-0 left-0 z-10 h-32 bg-gradient-to-b from-white to-transparent" />
-
       <div className="relative container mx-auto px-4">
         {/* 3D Carousel Container */}
         <div
@@ -169,9 +166,6 @@ export function PortfolioCarousel() {
           ))}
         </div>
       </div>
-
-      {/* Gradient fade bottom */}
-      <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-32 bg-gradient-to-t from-gray-50 to-transparent" />
     </section>
   );
 }

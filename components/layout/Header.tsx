@@ -168,9 +168,6 @@ export function Header({ onMenuClick }: HeaderProps) {
           </div>
         </div>
       </header>
-
-      {/* Spacer to prevent content from going under fixed header */}
-      <div className="h-20" />
     </>
   );
 }
