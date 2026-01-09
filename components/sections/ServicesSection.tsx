@@ -246,7 +246,7 @@ export function ServicesSection() {
               </AnimatePresence>
 
               <AnimatePresence mode="wait">
-                {/* CTA Button - Même style que Hero avec couleurs du service */}
+                {/* CTA Button - Même style que Hero avec dégradé subtil */}
                 <motion.div
                   key={`cta-${activeIndex}`}
                   {...fadeUpTransition}
@@ -256,7 +256,7 @@ export function ServicesSection() {
                     href={activeService.href}
                     className="group inline-flex items-center gap-2 rounded-full border-2 border-white/30 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:border-white/50 hover:shadow-lg"
                     style={{
-                      background: `linear-gradient(to bottom, ${activeService.color.light}, ${activeService.color.primary}, ${activeService.color.secondary})`,
+                      background: `linear-gradient(to bottom, ${activeService.color.primary}dd, ${activeService.color.primary}, ${activeService.color.primary}ee)`,
                       boxShadow: `0 10px 30px -10px ${activeService.color.primary}66`,
                     }}
                     onMouseEnter={(e) => {
