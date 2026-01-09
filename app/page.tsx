@@ -3,6 +3,7 @@ import { Hero } from '@/components/sections/Hero';
 import { PortfolioCarousel } from '@/components/sections/PortfolioCarousel';
 import { TrustBar } from '@/components/sections/TrustBar';
 import { ServicesSection } from '@/components/sections/ServicesSection';
+import { AboutSection } from '@/components/sections/AboutSection';
 import { WhyKBCOM } from '@/components/sections/WhyKBCOM';
 import { Stats } from '@/components/sections/Stats';
 import { FinalCTA } from '@/components/sections/FinalCTA';
@@ -51,6 +52,7 @@ export default function HomePage() {
         <PortfolioCarousel />
         <TrustBar />
         <ServicesSection />
+        <AboutSection />
         <WhyKBCOM />
         <Stats />
         <FinalCTA />
