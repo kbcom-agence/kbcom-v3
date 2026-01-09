@@ -6,7 +6,7 @@ import { AnimatedGradient } from '@/components/ui/AnimatedGradient';
 
 export function Hero() {
   return (
-    <section className="relative flex flex-col justify-center overflow-hidden px-4 pt-8 pb-4 md:px-8 md:pt-12 md:pb-6 lg:px-12">
+    <section className="relative flex flex-col justify-center overflow-hidden px-4 pt-24 pb-4 md:px-8 md:pt-28 md:pb-6 lg:px-12">
       {/* Animated gradient background */}
       <AnimatedGradient />
 
