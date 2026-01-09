@@ -92,7 +92,7 @@ export function AboutSection() {
               </span>
             </div>
 
-            <h2 className="font-['Cal_Sans',Inter,sans-serif] text-4xl leading-[1.1] font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
+            <h2 className="font-display text-4xl leading-[1.1] font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
               L&apos;agence qui{' '}
               <span className="relative inline-block">
                 <span className="text-primary">transforme</span>
@@ -145,7 +145,7 @@ export function AboutSection() {
               <div key={stat.label} className="text-center">
                 <div className="mb-2 flex items-center justify-center gap-2">
                   <Icon className="text-primary/60 h-5 w-5" />
-                  <span className="font-['Cal_Sans',Inter,sans-serif] text-3xl font-bold text-gray-900 md:text-4xl">
+                  <span className="font-display text-3xl font-bold text-gray-900 md:text-4xl">
                     {stat.value}
                   </span>
                 </div>

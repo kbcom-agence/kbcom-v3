@@ -4,7 +4,6 @@ import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { Monitor, ShoppingCart, TrendingUp, Smartphone, ArrowRight } from 'lucide-react';
-import { useRive } from '@rive-app/react-canvas';
 
 const services = [
   {
@@ -26,7 +25,6 @@ const services = [
     ),
     cta: 'Découvrir nos créations',
     href: '/services/creation-sites-web',
-    riveFile: '/animations/website-animation.riv',
     color: {
       primary: '#3b82f6',
       secondary: '#8b5cf6',
@@ -52,7 +50,6 @@ const services = [
     ),
     cta: 'Booster vos ventes',
     href: '/services/e-commerce',
-    riveFile: '/animations/ecommerce-animation.riv',
     color: {
       primary: '#8b5cf6',
       secondary: '#ec4899',
@@ -78,7 +75,6 @@ const services = [
     ),
     cta: 'Grimper dans Google',
     href: '/services/seo-referencement',
-    riveFile: '/animations/seo-animation.riv',
     color: {
       primary: '#06b6d4',
       secondary: '#3b82f6',
@@ -104,7 +100,6 @@ const services = [
     ),
     cta: 'Créer votre app',
     href: '/services/applications-web',
-    riveFile: '/animations/app-animation.riv',
     color: {
       primary: '#10b981',
       secondary: '#06b6d4',
@@ -119,32 +114,6 @@ const fadeUpTransition = {
   animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
   exit: { opacity: 0, y: -20, filter: 'blur(10px)' },
 };
-
-function RiveAnimation({ src, color }: { src: string; color: { primary: string } }) {
-  const { RiveComponent, rive } = useRive({
-    src,
-    autoplay: true,
-    stateMachines: 'State Machine 1',
-  });
-
-  return (
-    <div className="relative h-full w-full">
-      {/* Fallback pendant le chargement */}
-      {!rive && (
-        <div className="flex h-full w-full items-center justify-center">
-          <div
-            className="h-32 w-32 animate-pulse rounded-3xl opacity-10"
-            style={{ backgroundColor: color.primary }}
-          />
-        </div>
-      )}
-      {/* Canvas Rive */}
-      <div className={`h-full w-full ${!rive ? 'hidden' : ''}`}>
-        <RiveComponent />
-      </div>
-    </div>
-  );
-}
 
 export function ServicesSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -163,7 +132,7 @@ export function ServicesSection() {
   });
 
   const activeService = services[activeIndex];
-  const Icon = activeService.icon;
+  const ActiveIcon = activeService.icon;
 
   return (
     <section
@@ -210,7 +179,10 @@ export function ServicesSection() {
                     style={{ backgroundColor: activeService.color.light }}
                     layoutId="service-icon-bg"
                   >
-                    <Icon className="h-6 w-6" style={{ color: activeService.color.primary }} />
+                    <ActiveIcon
+                      className="h-6 w-6"
+                      style={{ color: activeService.color.primary }}
+                    />
                   </motion.div>
                   <span
                     className="text-sm font-semibold tracking-wider uppercase"
@@ -246,7 +218,7 @@ export function ServicesSection() {
               </AnimatePresence>
 
               <AnimatePresence mode="wait">
-                {/* CTA Button - Même style que Hero avec dégradé subtil */}
+                {/* CTA Button */}
                 <motion.div
                   key={`cta-${activeIndex}`}
                   {...fadeUpTransition}
@@ -303,7 +275,7 @@ export function ServicesSection() {
               </div>
             </div>
 
-            {/* Right side - Rive Animation */}
+            {/* Right side - Animated icon visual */}
             <div className="relative hidden lg:block">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -317,15 +289,62 @@ export function ServicesSection() {
                     boxShadow: `0 25px 70px -20px ${activeService.color.primary}40`,
                   }}
                 >
-                  {/* Subtle gradient background */}
+                  {/* Gradient background */}
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${activeService.color.bg} opacity-5`}
+                    className={`absolute inset-0 bg-gradient-to-br ${activeService.color.bg} opacity-10`}
                   />
 
-                  {/* Rive animation container */}
-                  <div className="absolute inset-0 flex items-center justify-center p-12">
-                    <RiveAnimation src={activeService.riveFile} color={activeService.color} />
+                  {/* Decorative circles */}
+                  <motion.div
+                    className="absolute -top-16 -right-16 h-64 w-64 rounded-full opacity-20"
+                    style={{ backgroundColor: activeService.color.primary }}
+                    animate={{ scale: [1, 1.1, 1], rotate: [0, 10, 0] }}
+                    transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+                  />
+                  <motion.div
+                    className="absolute -bottom-20 -left-20 h-72 w-72 rounded-full opacity-15"
+                    style={{ backgroundColor: activeService.color.secondary }}
+                    animate={{ scale: [1, 1.15, 1], rotate: [0, -10, 0] }}
+                    transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                  />
+
+                  {/* Central icon */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.div
+                      className="flex h-40 w-40 items-center justify-center rounded-3xl"
+                      style={{ backgroundColor: activeService.color.light }}
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                      <ActiveIcon
+                        className="h-20 w-20"
+                        style={{ color: activeService.color.primary }}
+                        strokeWidth={1.5}
+                      />
+                    </motion.div>
                   </div>
+
+                  {/* Floating small icons */}
+                  <motion.div
+                    className="absolute top-1/4 left-8 flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-lg"
+                    animate={{ y: [0, -8, 0], x: [0, 4, 0] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                  >
+                    <ActiveIcon
+                      className="h-6 w-6"
+                      style={{ color: activeService.color.primary }}
+                    />
+                  </motion.div>
+                  <motion.div
+                    className="absolute right-8 bottom-1/4 flex h-10 w-10 items-center justify-center rounded-lg bg-white shadow-lg"
+                    animate={{ y: [0, 6, 0], x: [0, -3, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+                  >
+                    <ActiveIcon
+                      className="h-5 w-5"
+                      style={{ color: activeService.color.secondary }}
+                    />
+                  </motion.div>
 
                   {/* Progress indicator */}
                   <div className="absolute right-6 bottom-6 rounded-full bg-white px-4 py-2 shadow-lg backdrop-blur-sm">

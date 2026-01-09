@@ -1,14 +1,5 @@
 @import "tailwindcss";
 
-/* Cal Sans Font - Using similar alternative for now (will need actual Cal Sans files) */
-@font-face {
-  font-family: 'Cal Sans';
-  src: local('Inter'), local('sans-serif');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme {
   /* Colors - Framer style */
   --color-primary: #5a8aff;
@@ -45,6 +36,7 @@
 
   /* Font family */
   --font-family-sans: var(--font-inter), Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-display: var(--font-display), 'Plus Jakarta Sans', var(--font-inter), Inter, sans-serif;
 }
 
 /* Custom gradient backgrounds */

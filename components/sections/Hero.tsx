@@ -88,7 +88,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-8 text-center font-['Cal_Sans',Inter,sans-serif] text-4xl leading-[1.1] font-bold tracking-tight text-gray-900 md:text-6xl lg:text-7xl"
+          className="font-display mb-8 text-center text-4xl leading-[1.1] font-bold tracking-tight text-gray-900 md:text-6xl lg:text-7xl"
         >
           Sites Web{' '}
           <span className="inline-flex items-center gap-2">
