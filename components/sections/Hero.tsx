@@ -11,21 +11,6 @@ export function Hero() {
       <AnimatedGradient />
 
       <div className="relative z-10 container mx-auto max-w-6xl">
-        {/* Trust Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-12 flex items-center justify-center gap-3"
-        >
-          <div className="flex -space-x-2">
-            <div className="h-10 w-10 rounded-full border-2 border-white bg-gray-300"></div>
-            <div className="h-10 w-10 rounded-full border-2 border-white bg-gray-400"></div>
-            <div className="h-10 w-10 rounded-full border-2 border-white bg-gray-500"></div>
-          </div>
-          <span className="text-sm font-medium text-gray-600">Trusted by 40+ clients</span>
-        </motion.div>
-
         {/* Main Heading - Style minimaliste avec emojis */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}

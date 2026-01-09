@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Hero } from '@/components/sections/Hero';
 import { PortfolioCarousel } from '@/components/sections/PortfolioCarousel';
 import { TrustBar } from '@/components/sections/TrustBar';
-import { ServicesPreview } from '@/components/sections/ServicesPreview';
+import { ServicesSection } from '@/components/sections/ServicesSection';
 import { WhyKBCOM } from '@/components/sections/WhyKBCOM';
 import { Stats } from '@/components/sections/Stats';
 import { FinalCTA } from '@/components/sections/FinalCTA';
@@ -50,7 +50,7 @@ export default function HomePage() {
         <Hero />
         <PortfolioCarousel />
         <TrustBar />
-        <ServicesPreview />
+        <ServicesSection />
         <WhyKBCOM />
         <Stats />
         <FinalCTA />
