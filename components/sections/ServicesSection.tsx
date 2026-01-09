@@ -33,31 +33,6 @@ const services = [
     },
   },
   {
-    id: 'e-commerce',
-    icon: ShoppingCart,
-    label: 'E-Commerce',
-    title: (color: string) => (
-      <>
-        Boutiques en ligne <span style={{ color }}>haute performance</span>
-      </>
-    ),
-    description: (color: string) => (
-      <>
-        Expérience d&apos;achat <span style={{ color }}>fluide</span> qui transforme les visiteurs
-        en clients. <span style={{ color }}>Paiements sécurisés</span>, gestion simplifiée,
-        analytics avancés pour <span style={{ color }}>maximiser vos ventes</span>.
-      </>
-    ),
-    cta: 'Booster vos ventes',
-    href: '/services/e-commerce',
-    color: {
-      primary: '#8b5cf6',
-      secondary: '#ec4899',
-      bg: 'from-violet-400 via-purple-500 to-pink-500',
-      light: '#ede9fe',
-    },
-  },
-  {
     id: 'seo',
     icon: TrendingUp,
     label: 'SEO & Référencement',
@@ -105,6 +80,31 @@ const services = [
       secondary: '#06b6d4',
       bg: 'from-emerald-400 via-teal-500 to-cyan-500',
       light: '#d1fae5',
+    },
+  },
+  {
+    id: 'e-commerce',
+    icon: ShoppingCart,
+    label: 'E-Commerce',
+    title: (color: string) => (
+      <>
+        Boutiques en ligne <span style={{ color }}>haute performance</span>
+      </>
+    ),
+    description: (color: string) => (
+      <>
+        Expérience d&apos;achat <span style={{ color }}>fluide</span> qui transforme les visiteurs
+        en clients. <span style={{ color }}>Paiements sécurisés</span>, gestion simplifiée,
+        analytics avancés pour <span style={{ color }}>maximiser vos ventes</span>.
+      </>
+    ),
+    cta: 'Booster vos ventes',
+    href: '/services/e-commerce',
+    color: {
+      primary: '#8b5cf6',
+      secondary: '#ec4899',
+      bg: 'from-violet-400 via-purple-500 to-pink-500',
+      light: '#ede9fe',
     },
   },
 ];
