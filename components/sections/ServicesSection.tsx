@@ -4,6 +4,7 @@ import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { Monitor, ShoppingCart, TrendingUp, Smartphone, ArrowRight } from 'lucide-react';
+import { useRive } from '@rive-app/react-canvas';
 
 const services = [
   {
@@ -15,6 +16,7 @@ const services = [
       'Sites vitrine et corporate sur mesure. Design unique, performances optimales avec Next.js et React. Chaque pixel est pensé pour votre audience.',
     cta: 'Découvrir nos créations',
     href: '/services/creation-sites-web',
+    riveFile: '/animations/website-animation.riv',
     color: {
       primary: '#3b82f6',
       secondary: '#8b5cf6',
@@ -31,6 +33,7 @@ const services = [
       "Expérience d'achat fluide qui transforme les visiteurs en clients. Paiements sécurisés, gestion simplifiée, analytics avancés pour maximiser vos ventes.",
     cta: 'Booster vos ventes',
     href: '/services/e-commerce',
+    riveFile: '/animations/ecommerce-animation.riv',
     color: {
       primary: '#8b5cf6',
       secondary: '#ec4899',
@@ -47,6 +50,7 @@ const services = [
       'Stratégies SEO complètes pour atteindre le Top 3. Audit technique, optimisation on-page, netlinking. Des résultats mesurables et durables.',
     cta: 'Grimper dans Google',
     href: '/services/seo-referencement',
+    riveFile: '/animations/seo-animation.riv',
     color: {
       primary: '#06b6d4',
       secondary: '#3b82f6',
@@ -63,6 +67,7 @@ const services = [
       'Applications web et mobile complexes. SaaS, CRM, plateformes métier — architecture moderne, scalable et évolutive pour accompagner votre croissance.',
     cta: 'Créer votre app',
     href: '/services/applications-web',
+    riveFile: '/animations/app-animation.riv',
     color: {
       primary: '#10b981',
       secondary: '#06b6d4',
@@ -77,6 +82,38 @@ const fadeUpTransition = {
   animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
   exit: { opacity: 0, y: -20, filter: 'blur(10px)' },
 };
+
+function RiveAnimation({
+  src,
+  color,
+}: {
+  src: string;
+  color: { primary: string; secondary: string };
+}) {
+  const { RiveComponent, rive } = useRive({
+    src,
+    autoplay: true,
+    stateMachines: 'State Machine 1',
+  });
+
+  return (
+    <div className="relative h-full w-full">
+      {/* Fallback: elegant icon display while Rive loads or if file is missing */}
+      {!rive && (
+        <div className="flex h-full w-full items-center justify-center">
+          <div
+            className="h-32 w-32 rounded-3xl opacity-10"
+            style={{ backgroundColor: color.primary }}
+          />
+        </div>
+      )}
+      {/* Rive canvas - hidden until loaded */}
+      <div className={`h-full w-full ${!rive ? 'hidden' : ''}`}>
+        <RiveComponent />
+      </div>
+    </div>
+  );
+}
 
 export function ServicesSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -159,7 +196,7 @@ export function ServicesSection() {
                   key={`title-${activeIndex}`}
                   {...fadeUpTransition}
                   transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="mb-6 text-4xl leading-[1.1] font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
+                  className="mb-6 text-4xl leading-[1.1] font-semibold tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
                 >
                   {activeService.title}
                 </motion.h2>
@@ -231,90 +268,39 @@ export function ServicesSection() {
 
             {/* Right side - Visual */}
             <div className="relative hidden lg:block">
-              <motion.div
-                className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem]"
-                animate={{
-                  boxShadow: `0 30px 60px -20px ${activeService.color.primary}40`,
-                }}
-                transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-              >
-                {/* Gradient background with smooth transition */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`gradient-${activeIndex}`}
-                    className={`absolute inset-0 bg-gradient-to-br ${activeService.color.bg}`}
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-                  />
-                </AnimatePresence>
-
-                {/* Animated blob shapes */}
+              <AnimatePresence mode="wait">
                 <motion.div
-                  className="absolute inset-0"
-                  animate={{
-                    background: `radial-gradient(circle at 30% 70%, ${activeService.color.secondary}50 0%, transparent 50%)`,
+                  key={`visual-${activeIndex}`}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="relative aspect-square overflow-hidden rounded-3xl"
+                  style={{
+                    boxShadow: `0 20px 60px -15px ${activeService.color.primary}30`,
                   }}
-                  transition={{ duration: 1.2, ease: 'easeOut' }}
-                />
-                <motion.div
-                  className="absolute inset-0 opacity-30"
-                  animate={{
-                    background: `radial-gradient(circle at 70% 20%, white 0%, transparent 40%)`,
-                  }}
-                />
-
-                {/* Floating UI mockup */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`mockup-${activeIndex}`}
-                    initial={{ opacity: 0, y: 60, scale: 0.9 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -40, scale: 0.95 }}
-                    transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-                    className="absolute right-8 bottom-8 left-8 rounded-2xl border border-white/30 bg-white/95 p-6 shadow-2xl backdrop-blur-xl"
-                  >
-                    {/* Mock UI elements */}
-                    <div className="mb-4 flex items-center gap-3">
-                      <div
-                        className="h-10 w-10 rounded-xl"
-                        style={{ backgroundColor: activeService.color.primary }}
-                      />
-                      <div className="flex-1">
-                        <div className="mb-1.5 h-3 w-28 rounded-full bg-gray-800" />
-                        <div className="h-2 w-20 rounded-full bg-gray-300" />
-                      </div>
-                    </div>
-                    <div className="space-y-2.5">
-                      <div className="h-2 w-full rounded-full bg-gray-200" />
-                      <div className="h-2 w-4/5 rounded-full bg-gray-200" />
-                      <div className="h-2 w-3/5 rounded-full bg-gray-200" />
-                    </div>
-                    <div className="mt-5 flex gap-3">
-                      <div
-                        className="h-9 w-28 rounded-full"
-                        style={{ backgroundColor: activeService.color.primary }}
-                      />
-                      <div className="h-9 w-24 rounded-full border-2 border-gray-200" />
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Floating badge */}
-                <motion.div
-                  className="absolute top-6 right-6 rounded-full border border-white/40 bg-white/90 px-4 py-2 shadow-lg backdrop-blur-md"
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                 >
-                  <span className="text-sm font-bold text-gray-800">
-                    {String(activeIndex + 1).padStart(2, '0')}{' '}
-                    <span className="font-normal text-gray-400">
-                      / {String(services.length).padStart(2, '0')}
-                    </span>
-                  </span>
+                  {/* Clean gradient background */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${activeService.color.bg} opacity-10`}
+                  />
+
+                  {/* Rive animation container */}
+                  <div className="absolute inset-0 flex items-center justify-center p-12">
+                    <RiveAnimation src={activeService.riveFile} color={activeService.color} />
+                  </div>
+
+                  {/* Minimal badge */}
+                  <div className="absolute right-6 bottom-6 left-6 flex items-center justify-between">
+                    <div className="rounded-full bg-white/90 px-4 py-2 shadow-lg backdrop-blur-md">
+                      <span className="text-xs font-medium text-gray-600">
+                        {String(activeIndex + 1).padStart(2, '0')} /{' '}
+                        {String(services.length).padStart(2, '0')}
+                      </span>
+                    </div>
+                  </div>
                 </motion.div>
-              </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </div>
