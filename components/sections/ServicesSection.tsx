@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { Monitor, ShoppingCart, TrendingUp, Smartphone, ArrowRight } from 'lucide-react';
@@ -18,7 +18,8 @@ const services = [
     color: {
       primary: '#3b82f6',
       secondary: '#8b5cf6',
-      bg: 'from-blue-500 via-blue-400 to-violet-500',
+      bg: 'from-blue-400 via-blue-500 to-violet-500',
+      light: '#dbeafe',
     },
   },
   {
@@ -33,7 +34,8 @@ const services = [
     color: {
       primary: '#8b5cf6',
       secondary: '#ec4899',
-      bg: 'from-violet-500 via-purple-500 to-pink-500',
+      bg: 'from-violet-400 via-purple-500 to-pink-500',
+      light: '#ede9fe',
     },
   },
   {
@@ -48,7 +50,8 @@ const services = [
     color: {
       primary: '#06b6d4',
       secondary: '#3b82f6',
-      bg: 'from-cyan-500 via-cyan-400 to-blue-500',
+      bg: 'from-cyan-400 via-cyan-500 to-blue-500',
+      light: '#cffafe',
     },
   },
   {
@@ -63,10 +66,17 @@ const services = [
     color: {
       primary: '#10b981',
       secondary: '#06b6d4',
-      bg: 'from-emerald-500 via-teal-500 to-cyan-500',
+      bg: 'from-emerald-400 via-teal-500 to-cyan-500',
+      light: '#d1fae5',
     },
   },
 ];
+
+const fadeUpTransition = {
+  initial: { opacity: 0, y: 30, filter: 'blur(10px)' },
+  animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+  exit: { opacity: 0, y: -20, filter: 'blur(10px)' },
+};
 
 export function ServicesSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -77,10 +87,11 @@ export function ServicesSection() {
     offset: ['start start', 'end end'],
   });
 
-  // Track scroll progress and update active service
   useMotionValueEvent(scrollYProgress, 'change', (progress) => {
     const index = Math.min(Math.floor(progress * services.length), services.length - 1);
-    setActiveIndex(index);
+    if (index !== activeIndex) {
+      setActiveIndex(index);
+    }
   });
 
   const activeService = services[activeIndex];
@@ -89,90 +100,106 @@ export function ServicesSection() {
   return (
     <section
       ref={containerRef}
-      className="relative bg-gray-950"
+      className="relative bg-white"
       style={{ height: `${services.length * 100}vh` }}
     >
       {/* Sticky container */}
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Background gradient that changes with service */}
+        {/* Animated background gradient */}
         <motion.div
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0"
           animate={{
-            background: `radial-gradient(ellipse at 70% 50%, ${activeService.color.primary}40 0%, transparent 50%)`,
+            background: `radial-gradient(ellipse 80% 60% at 70% 50%, ${activeService.color.light} 0%, transparent 70%)`,
           }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+        />
+
+        {/* Subtle grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `radial-gradient(circle, #000 1px, transparent 1px)`,
+            backgroundSize: '24px 24px',
+          }}
         />
 
         <div className="relative z-10 container mx-auto flex h-full items-center px-6 md:px-12 lg:px-20">
           <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
             {/* Left side - Text content */}
             <div className="max-w-xl">
-              {/* Service label */}
-              <motion.div
-                key={`label-${activeIndex}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="mb-6 flex items-center gap-3"
-              >
+              <AnimatePresence mode="wait">
+                {/* Service label */}
                 <motion.div
-                  className="flex h-10 w-10 items-center justify-center rounded-xl"
-                  style={{ backgroundColor: `${activeService.color.primary}20` }}
+                  key={`label-${activeIndex}`}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="mb-6 flex items-center gap-3"
                 >
-                  <Icon className="h-5 w-5" style={{ color: activeService.color.primary }} />
+                  <motion.div
+                    className="flex h-12 w-12 items-center justify-center rounded-2xl"
+                    style={{ backgroundColor: activeService.color.light }}
+                    layoutId="service-icon-bg"
+                  >
+                    <Icon className="h-6 w-6" style={{ color: activeService.color.primary }} />
+                  </motion.div>
+                  <span
+                    className="text-sm font-semibold tracking-wider uppercase"
+                    style={{ color: activeService.color.primary }}
+                  >
+                    {activeService.label}
+                  </span>
                 </motion.div>
-                <span
-                  className="text-sm font-semibold tracking-wide"
-                  style={{ color: activeService.color.primary }}
+              </AnimatePresence>
+
+              <AnimatePresence mode="wait">
+                {/* Title */}
+                <motion.h2
+                  key={`title-${activeIndex}`}
+                  {...fadeUpTransition}
+                  transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="mb-6 text-4xl leading-[1.1] font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
                 >
-                  {activeService.label}
-                </span>
-              </motion.div>
+                  {activeService.title}
+                </motion.h2>
+              </AnimatePresence>
 
-              {/* Title */}
-              <motion.h2
-                key={`title-${activeIndex}`}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="mb-6 text-4xl leading-[1.15] font-bold tracking-tight text-white md:text-5xl lg:text-6xl"
-              >
-                {activeService.title}
-              </motion.h2>
-
-              {/* Description */}
-              <motion.p
-                key={`desc-${activeIndex}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="mb-10 text-lg leading-relaxed text-gray-400"
-              >
-                {activeService.description}
-              </motion.p>
-
-              {/* CTA Button */}
-              <motion.div
-                key={`cta-${activeIndex}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
-                <Link
-                  href={activeService.href}
-                  className="group inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 font-semibold text-gray-900 transition-all duration-300 hover:gap-4"
-                  style={{
-                    boxShadow: `0 0 40px ${activeService.color.primary}30`,
-                  }}
+              <AnimatePresence mode="wait">
+                {/* Description */}
+                <motion.p
+                  key={`desc-${activeIndex}`}
+                  {...fadeUpTransition}
+                  transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="mb-10 text-lg leading-relaxed text-gray-600"
                 >
-                  {activeService.cta}
-                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </motion.div>
+                  {activeService.description}
+                </motion.p>
+              </AnimatePresence>
+
+              <AnimatePresence mode="wait">
+                {/* CTA Button */}
+                <motion.div
+                  key={`cta-${activeIndex}`}
+                  {...fadeUpTransition}
+                  transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  <Link
+                    href={activeService.href}
+                    className="group inline-flex items-center gap-3 rounded-full px-8 py-4 font-semibold text-white transition-all duration-500 hover:gap-4 hover:shadow-2xl"
+                    style={{
+                      backgroundColor: activeService.color.primary,
+                      boxShadow: `0 10px 40px -10px ${activeService.color.primary}80`,
+                    }}
+                  >
+                    {activeService.cta}
+                    <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
 
               {/* Progress indicators */}
-              <div className="mt-16 flex items-center gap-3">
+              <div className="mt-16 flex items-center gap-4">
                 {services.map((service, index) => (
                   <button
                     key={service.id}
@@ -185,19 +212,17 @@ export function ServicesSection() {
                         window.scrollTo({ top: targetScroll, behavior: 'smooth' });
                       }
                     }}
-                    className="group relative h-1 flex-1 overflow-hidden rounded-full bg-white/10 transition-all"
+                    className="group relative h-2 flex-1 overflow-hidden rounded-full bg-gray-200 transition-all duration-300 hover:bg-gray-300"
                     aria-label={`Aller à ${service.label}`}
                   >
                     <motion.div
                       className="absolute inset-y-0 left-0 rounded-full"
-                      style={{
-                        backgroundColor:
-                          index <= activeIndex ? services[index].color.primary : 'transparent',
-                      }}
+                      initial={false}
                       animate={{
-                        width: index < activeIndex ? '100%' : index === activeIndex ? '100%' : '0%',
+                        width: index <= activeIndex ? '100%' : '0%',
+                        backgroundColor: service.color.primary,
                       }}
-                      transition={{ duration: 0.4 }}
+                      transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                     />
                   </button>
                 ))}
@@ -209,78 +234,84 @@ export function ServicesSection() {
               <motion.div
                 className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem]"
                 animate={{
-                  boxShadow: `0 25px 80px -20px ${activeService.color.primary}50`,
+                  boxShadow: `0 30px 60px -20px ${activeService.color.primary}40`,
                 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
               >
-                {/* Gradient background */}
-                <motion.div
-                  className={`absolute inset-0 bg-gradient-to-br ${activeService.color.bg}`}
-                  initial={false}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.8 }}
-                />
+                {/* Gradient background with smooth transition */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`gradient-${activeIndex}`}
+                    className={`absolute inset-0 bg-gradient-to-br ${activeService.color.bg}`}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                  />
+                </AnimatePresence>
 
                 {/* Animated blob shapes */}
                 <motion.div
                   className="absolute inset-0"
                   animate={{
-                    background: `radial-gradient(circle at 30% 70%, ${activeService.color.secondary}60 0%, transparent 50%)`,
+                    background: `radial-gradient(circle at 30% 70%, ${activeService.color.secondary}50 0%, transparent 50%)`,
                   }}
-                  transition={{ duration: 1 }}
+                  transition={{ duration: 1.2, ease: 'easeOut' }}
                 />
                 <motion.div
-                  className="absolute inset-0"
+                  className="absolute inset-0 opacity-30"
                   animate={{
-                    background: `radial-gradient(circle at 70% 30%, white 0%, transparent 30%)`,
+                    background: `radial-gradient(circle at 70% 20%, white 0%, transparent 40%)`,
                   }}
-                  style={{ opacity: 0.2 }}
                 />
 
                 {/* Floating UI mockup */}
-                <motion.div
-                  key={`mockup-${activeIndex}`}
-                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.7, delay: 0.2 }}
-                  className="absolute right-8 bottom-8 left-8 rounded-2xl border border-white/20 bg-gray-900/90 p-6 backdrop-blur-xl"
-                >
-                  {/* Mock UI elements */}
-                  <div className="mb-4 flex items-center gap-3">
-                    <div
-                      className="h-10 w-10 rounded-xl"
-                      style={{ backgroundColor: activeService.color.primary }}
-                    />
-                    <div className="flex-1">
-                      <div className="mb-1 h-3 w-24 rounded bg-white/80" />
-                      <div className="h-2 w-16 rounded bg-white/40" />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`mockup-${activeIndex}`}
+                    initial={{ opacity: 0, y: 60, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -40, scale: 0.95 }}
+                    transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="absolute right-8 bottom-8 left-8 rounded-2xl border border-white/30 bg-white/95 p-6 shadow-2xl backdrop-blur-xl"
+                  >
+                    {/* Mock UI elements */}
+                    <div className="mb-4 flex items-center gap-3">
+                      <div
+                        className="h-10 w-10 rounded-xl"
+                        style={{ backgroundColor: activeService.color.primary }}
+                      />
+                      <div className="flex-1">
+                        <div className="mb-1.5 h-3 w-28 rounded-full bg-gray-800" />
+                        <div className="h-2 w-20 rounded-full bg-gray-300" />
+                      </div>
                     </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="h-2 w-full rounded bg-white/20" />
-                    <div className="h-2 w-4/5 rounded bg-white/20" />
-                    <div className="h-2 w-3/5 rounded bg-white/20" />
-                  </div>
-                  <div className="mt-4 flex gap-2">
-                    <div
-                      className="h-8 w-24 rounded-full"
-                      style={{ backgroundColor: activeService.color.primary }}
-                    />
-                    <div className="h-8 w-20 rounded-full border border-white/20" />
-                  </div>
-                </motion.div>
+                    <div className="space-y-2.5">
+                      <div className="h-2 w-full rounded-full bg-gray-200" />
+                      <div className="h-2 w-4/5 rounded-full bg-gray-200" />
+                      <div className="h-2 w-3/5 rounded-full bg-gray-200" />
+                    </div>
+                    <div className="mt-5 flex gap-3">
+                      <div
+                        className="h-9 w-28 rounded-full"
+                        style={{ backgroundColor: activeService.color.primary }}
+                      />
+                      <div className="h-9 w-24 rounded-full border-2 border-gray-200" />
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
 
                 {/* Floating badge */}
                 <motion.div
-                  key={`badge-${activeIndex}`}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="absolute top-6 right-6 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md"
+                  className="absolute top-6 right-6 rounded-full border border-white/40 bg-white/90 px-4 py-2 shadow-lg backdrop-blur-md"
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                 >
-                  <span className="text-sm font-medium text-white">
-                    {String(activeIndex + 1).padStart(2, '0')} /{' '}
-                    {String(services.length).padStart(2, '0')}
+                  <span className="text-sm font-bold text-gray-800">
+                    {String(activeIndex + 1).padStart(2, '0')}{' '}
+                    <span className="font-normal text-gray-400">
+                      / {String(services.length).padStart(2, '0')}
+                    </span>
                   </span>
                 </motion.div>
               </motion.div>
