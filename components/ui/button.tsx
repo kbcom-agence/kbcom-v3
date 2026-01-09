@@ -24,7 +24,7 @@ export function Button({
 
   const variantClasses = {
     gradient:
-      'bg-gradient-to-b from-primary to-primary-dark text-white border-2 border-white/20 hover:border-white/40 hover:shadow-primary/30',
+      'bg-gradient-to-b from-primary-light via-primary to-primary-dark text-white border-2 border-white/30 hover:border-white/50 hover:shadow-primary/40 shadow-lg',
     dark: 'bg-gradient-to-b from-gray-800 to-gray-900 text-white border-2 border-gray-700 hover:border-gray-600 hover:shadow-lg',
   };
 

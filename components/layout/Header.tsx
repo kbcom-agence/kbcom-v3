@@ -151,9 +151,9 @@ export function Header({ onMenuClick }: HeaderProps) {
             {/* Contact CTA button (hidden on mobile) */}
             <Link
               href="/contact"
-              className="bg-primary hover:bg-primary-dark focus-visible:outline-primary-light hidden items-center rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 md:inline-flex"
+              className="from-primary-light via-primary to-primary-dark focus-visible:outline-primary-light hover:shadow-primary/40 hidden items-center rounded-full border-2 border-white/30 bg-gradient-to-b px-6 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:border-white/50 focus-visible:outline-2 focus-visible:outline-offset-2 md:inline-flex"
             >
-              Contact
+              Démarrer un projet
             </Link>
 
             {/* Hamburger menu button (mobile only) */}

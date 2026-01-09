@@ -11,9 +11,9 @@
 
 @theme {
   /* Colors - Framer style */
-  --color-primary: #3a67ff;
-  --color-primary-light: #6b8aff;
-  --color-primary-dark: #2a4fd9;
+  --color-primary: #5a8aff;
+  --color-primary-light: #8ab4ff;
+  --color-primary-dark: #3a6aef;
   --color-primary-foreground: #ffffff;
 
   --color-accent: #5235ef;

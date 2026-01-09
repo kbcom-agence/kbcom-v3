@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-screen flex-col justify-center bg-white px-4 pt-20 pb-32 md:px-8 md:pb-40 lg:px-12">
+    <section className="relative flex flex-col justify-center bg-white px-4 pt-8 pb-4 md:px-8 md:pt-12 md:pb-6 lg:px-12">
       <div className="container mx-auto max-w-6xl">
         {/* Trust Badge */}
         <motion.div
@@ -80,7 +80,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mb-8 flex flex-wrap justify-center gap-4"
+          className="mb-0 flex flex-wrap justify-center gap-4"
         >
           <Button href="/contact" variant="gradient">
             Démarrer un Projet
