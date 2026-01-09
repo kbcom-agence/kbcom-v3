@@ -165,29 +165,20 @@ export function ServicesSection() {
             {/* Left side - Text content */}
             <div className="max-w-xl">
               <AnimatePresence mode="wait">
-                {/* Service label */}
+                {/* Service badge - Dark style */}
                 <motion.div
                   key={`label-${activeIndex}`}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="mb-6 flex items-center gap-3"
+                  className="mb-6"
                 >
-                  <motion.div
-                    className="flex h-12 w-12 items-center justify-center rounded-2xl"
-                    style={{ backgroundColor: activeService.color.light }}
-                    layoutId="service-icon-bg"
-                  >
-                    <ActiveIcon
-                      className="h-6 w-6"
-                      style={{ color: activeService.color.primary }}
+                  <span className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-lg">
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: activeService.color.primary }}
                     />
-                  </motion.div>
-                  <span
-                    className="text-sm font-semibold tracking-wider uppercase"
-                    style={{ color: activeService.color.primary }}
-                  >
                     {activeService.label}
                   </span>
                 </motion.div>
