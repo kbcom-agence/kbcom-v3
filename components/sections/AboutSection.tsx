@@ -2,8 +2,8 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { MapPin, ArrowRight, Users } from 'lucide-react';
-import Link from 'next/link';
+import { MapPin, Users } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const badges = [
   { label: 'Next.js & React', color: 'default' },
@@ -51,7 +51,7 @@ export function AboutSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-              className="font-display mb-6 text-4xl leading-[1.1] font-bold tracking-tight text-gray-900 md:text-5xl"
+              className="font-display mb-6 text-4xl leading-[1.1] font-semibold tracking-tight text-gray-900 md:text-5xl"
             >
               L&apos;agence web <span className="text-primary">nouvelle génération</span>
             </motion.h2>
@@ -106,13 +106,9 @@ export function AboutSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <Link
-                href="/contact"
-                className="text-primary border-primary/20 bg-primary/5 hover:bg-primary/10 group inline-flex items-center gap-2 rounded-full border px-6 py-3 font-semibold shadow-sm transition-all duration-300 hover:shadow-md"
-              >
+              <Button href="/contact" variant="gradient">
                 Discutons de votre projet
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
+              </Button>
             </motion.div>
           </motion.div>
 

@@ -26,10 +26,10 @@ const services = [
     cta: 'Découvrir nos créations',
     href: '/services/creation-sites-web',
     color: {
-      primary: '#3b82f6',
-      secondary: '#8b5cf6',
-      bg: 'from-blue-400 via-blue-500 to-violet-500',
-      light: '#dbeafe',
+      primary: '#8b5cf6',
+      secondary: '#a855f7',
+      bg: 'from-violet-400 via-purple-500 to-violet-600',
+      light: '#ede9fe',
     },
   },
   {
@@ -51,10 +51,10 @@ const services = [
     cta: 'Booster vos ventes',
     href: '/services/e-commerce',
     color: {
-      primary: '#8b5cf6',
-      secondary: '#ec4899',
-      bg: 'from-violet-400 via-purple-500 to-pink-500',
-      light: '#ede9fe',
+      primary: '#3b82f6',
+      secondary: '#2563eb',
+      bg: 'from-blue-400 via-blue-500 to-blue-600',
+      light: '#dbeafe',
     },
   },
   {
@@ -77,8 +77,8 @@ const services = [
     href: '/services/seo-referencement',
     color: {
       primary: '#06b6d4',
-      secondary: '#3b82f6',
-      bg: 'from-cyan-400 via-cyan-500 to-blue-500',
+      secondary: '#0891b2',
+      bg: 'from-cyan-400 via-cyan-500 to-cyan-600',
       light: '#cffafe',
     },
   },
@@ -102,8 +102,8 @@ const services = [
     href: '/services/applications-web',
     color: {
       primary: '#10b981',
-      secondary: '#06b6d4',
-      bg: 'from-emerald-400 via-teal-500 to-cyan-500',
+      secondary: '#059669',
+      bg: 'from-emerald-400 via-emerald-500 to-emerald-600',
       light: '#d1fae5',
     },
   },
