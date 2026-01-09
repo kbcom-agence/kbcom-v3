@@ -1,0 +1,23 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Search magnifier -->
+  <circle cx="180" cy="180" r="80" fill="white" stroke="#06b6d4" stroke-width="4"/>
+  <line x1="240" y1="240" x2="300" y2="300" stroke="#06b6d4" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- SEO Keywords inside -->
+  <text x="180" y="165" text-anchor="middle" font-size="16" font-weight="bold" fill="#06b6d4">SEO</text>
+  <text x="180" y="185" text-anchor="middle" font-size="12" fill="#3b82f6" opacity="0.7">Keywords</text>
+  <text x="180" y="200" text-anchor="middle" font-size="12" fill="#06b6d4" opacity="0.6">Ranking</text>
+
+  <!-- Ranking bars -->
+  <rect x="280" y="100" width="60" height="20" rx="10" fill="#06b6d4" fill-opacity="0.2"/>
+  <rect x="280" y="130" width="80" height="20" rx="10" fill="#06b6d4" fill-opacity="0.3"/>
+  <rect x="280" y="160" width="50" height="20" rx="10" fill="#3b82f6" fill-opacity="0.25"/>
+
+  <!-- Stars for top ranking -->
+  <circle cx="80" cy="120" r="25" fill="#fbbf24" fill-opacity="0.2"/>
+  <text x="80" y="130" text-anchor="middle" font-size="24">⭐</text>
+
+  <!-- Graph line -->
+  <path d="M60 300 L100 260 L140 280 L180 220 L220 240 L260 180" stroke="#06b6d4" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="260" cy="180" r="8" fill="#06b6d4"/>
+</svg>

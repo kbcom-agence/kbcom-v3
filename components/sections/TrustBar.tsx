@@ -3,44 +3,71 @@
 import { motion } from 'framer-motion';
 
 export function TrustBar() {
-  const clients = [
-    { name: 'Client 1', logo: '🏢' },
-    { name: 'Client 2', logo: '🏪' },
-    { name: 'Client 3', logo: '🏭' },
-    { name: 'Client 4', logo: '🏛️' },
-    { name: 'Client 5', logo: '🏦' },
-    { name: 'Client 6', logo: '🏥' },
+  // Logos d'entreprises fictifs - style SaaS moderne
+  const logos = [
+    { name: 'TechCorp', width: 120 },
+    { name: 'Innovate', width: 100 },
+    { name: 'Digital+', width: 110 },
+    { name: 'CloudFlow', width: 130 },
+    { name: 'Nexus', width: 90 },
+    { name: 'Quantum', width: 115 },
+    { name: 'Vertex', width: 95 },
+    { name: 'Pulse', width: 85 },
   ];
 
+  // Double les logos pour un défilement infini seamless
+  const duplicatedLogos = [...logos, ...logos];
+
   return (
-    <section className="bg-gray-50 py-20">
-      <div className="container mx-auto px-4 md:px-8 lg:px-12">
+    <section className="relative overflow-hidden border-y border-gray-100 bg-gradient-to-b from-white to-gray-50/50 py-8">
+      <div className="relative container mx-auto px-4 md:px-8 lg:px-12">
+        {/* Title - très discret */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-12 text-center text-sm font-semibold tracking-wider text-gray-600 uppercase"
+          transition={{ duration: 0.8 }}
+          className="mb-6 text-center text-xs font-medium tracking-wider text-gray-400 uppercase"
         >
           Ils nous font confiance
         </motion.p>
 
-        <div className="grid grid-cols-2 items-center justify-items-center gap-6 md:grid-cols-3 lg:grid-cols-6">
-          {clients.map((client, index) => (
-            <motion.div
-              key={client.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.05 }}
-              className="flex h-24 w-full items-center justify-center rounded-2xl bg-white shadow-sm transition-all duration-300 hover:shadow-md"
-            >
-              <div className="text-5xl" aria-label={client.name}>
-                {client.logo}
+        {/* Infinite scroll container */}
+        <div className="relative">
+          {/* Fade edges */}
+          <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-24 bg-gradient-to-r from-gray-50/50 to-transparent" />
+          <div className="pointer-events-none absolute top-0 right-0 z-10 h-full w-24 bg-gradient-to-l from-gray-50/50 to-transparent" />
+
+          {/* Scrolling logos */}
+          <motion.div
+            className="flex gap-12"
+            animate={{
+              x: [0, -1200],
+            }}
+            transition={{
+              x: {
+                duration: 25,
+                repeat: Infinity,
+                ease: 'linear',
+              },
+            }}
+          >
+            {duplicatedLogos.map((logo, index) => (
+              <div
+                key={`${logo.name}-${index}`}
+                className="flex shrink-0 items-center justify-center opacity-40 grayscale transition-all duration-300 hover:opacity-70 hover:grayscale-0"
+                style={{ width: `${logo.width}px` }}
+              >
+                {/* Placeholder logo - texte stylisé */}
+                <div
+                  className="font-bold tracking-tight text-gray-700"
+                  style={{ fontSize: '20px' }}
+                >
+                  {logo.name}
+                </div>
               </div>
-            </motion.div>
-          ))}
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>

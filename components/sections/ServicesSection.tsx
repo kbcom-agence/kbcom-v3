@@ -4,7 +4,7 @@ import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { Monitor, ShoppingCart, TrendingUp, Smartphone, ArrowRight } from 'lucide-react';
-import { useRive } from '@rive-app/react-canvas';
+import Image from 'next/image';
 
 const services = [
   {
@@ -12,11 +12,16 @@ const services = [
     icon: Monitor,
     label: 'Sites Web',
     title: 'Des sites web qui captent et convertissent',
-    description:
-      'Sites vitrine et corporate sur mesure. Design unique, performances optimales avec Next.js et React. Chaque pixel est pensé pour votre audience.',
+    description: (color: string) => (
+      <>
+        Sites vitrine et corporate <span style={{ color }}>sur mesure</span>. Design unique,{' '}
+        <span style={{ color }}>performances optimales</span> avec Next.js et React. Chaque pixel
+        est pensé pour <span style={{ color }}>votre audience</span>.
+      </>
+    ),
     cta: 'Découvrir nos créations',
     href: '/services/creation-sites-web',
-    riveFile: '/animations/website-animation.riv',
+    image: '/images/services/web-design.svg',
     color: {
       primary: '#3b82f6',
       secondary: '#8b5cf6',
@@ -29,11 +34,16 @@ const services = [
     icon: ShoppingCart,
     label: 'E-Commerce',
     title: 'Boutiques en ligne haute performance',
-    description:
-      "Expérience d'achat fluide qui transforme les visiteurs en clients. Paiements sécurisés, gestion simplifiée, analytics avancés pour maximiser vos ventes.",
+    description: (color: string) => (
+      <>
+        Expérience d&apos;achat <span style={{ color }}>fluide</span> qui transforme les visiteurs
+        en clients. <span style={{ color }}>Paiements sécurisés</span>, gestion simplifiée,
+        analytics avancés pour <span style={{ color }}>maximiser vos ventes</span>.
+      </>
+    ),
     cta: 'Booster vos ventes',
     href: '/services/e-commerce',
-    riveFile: '/animations/ecommerce-animation.riv',
+    image: '/images/services/ecommerce.svg',
     color: {
       primary: '#8b5cf6',
       secondary: '#ec4899',
@@ -46,11 +56,16 @@ const services = [
     icon: TrendingUp,
     label: 'SEO & Référencement',
     title: 'Dominez Google sur vos mots-clés',
-    description:
-      'Stratégies SEO complètes pour atteindre le Top 3. Audit technique, optimisation on-page, netlinking. Des résultats mesurables et durables.',
+    description: (color: string) => (
+      <>
+        Stratégies SEO complètes pour atteindre le <span style={{ color }}>Top 3</span>. Audit
+        technique, <span style={{ color }}>optimisation on-page</span>, netlinking. Des résultats{' '}
+        <span style={{ color }}>mesurables et durables</span>.
+      </>
+    ),
     cta: 'Grimper dans Google',
     href: '/services/seo-referencement',
-    riveFile: '/animations/seo-animation.riv',
+    image: '/images/services/seo.svg',
     color: {
       primary: '#06b6d4',
       secondary: '#3b82f6',
@@ -63,11 +78,16 @@ const services = [
     icon: Smartphone,
     label: 'Applications',
     title: 'Solutions digitales sur mesure',
-    description:
-      'Applications web et mobile complexes. SaaS, CRM, plateformes métier — architecture moderne, scalable et évolutive pour accompagner votre croissance.',
+    description: (color: string) => (
+      <>
+        Applications web et mobile <span style={{ color }}>complexes</span>. SaaS, CRM, plateformes
+        métier — architecture <span style={{ color }}>moderne, scalable</span> et évolutive pour
+        accompagner <span style={{ color }}>votre croissance</span>.
+      </>
+    ),
     cta: 'Créer votre app',
     href: '/services/applications-web',
-    riveFile: '/animations/app-animation.riv',
+    image: '/images/services/app-dev.svg',
     color: {
       primary: '#10b981',
       secondary: '#06b6d4',
@@ -82,38 +102,6 @@ const fadeUpTransition = {
   animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
   exit: { opacity: 0, y: -20, filter: 'blur(10px)' },
 };
-
-function RiveAnimation({
-  src,
-  color,
-}: {
-  src: string;
-  color: { primary: string; secondary: string };
-}) {
-  const { RiveComponent, rive } = useRive({
-    src,
-    autoplay: true,
-    stateMachines: 'State Machine 1',
-  });
-
-  return (
-    <div className="relative h-full w-full">
-      {/* Fallback: elegant icon display while Rive loads or if file is missing */}
-      {!rive && (
-        <div className="flex h-full w-full items-center justify-center">
-          <div
-            className="h-32 w-32 rounded-3xl opacity-10"
-            style={{ backgroundColor: color.primary }}
-          />
-        </div>
-      )}
-      {/* Rive canvas - hidden until loaded */}
-      <div className={`h-full w-full ${!rive ? 'hidden' : ''}`}>
-        <RiveComponent />
-      </div>
-    </div>
-  );
-}
 
 export function ServicesSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -210,12 +198,12 @@ export function ServicesSection() {
                   transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
                   className="mb-10 text-lg leading-relaxed text-gray-600"
                 >
-                  {activeService.description}
+                  {activeService.description(activeService.color.primary)}
                 </motion.p>
               </AnimatePresence>
 
               <AnimatePresence mode="wait">
-                {/* CTA Button */}
+                {/* CTA Button - Hero style with service colors */}
                 <motion.div
                   key={`cta-${activeIndex}`}
                   {...fadeUpTransition}
@@ -223,14 +211,15 @@ export function ServicesSection() {
                 >
                   <Link
                     href={activeService.href}
-                    className="group inline-flex items-center gap-3 rounded-full px-8 py-4 font-semibold text-white transition-all duration-500 hover:gap-4 hover:shadow-2xl"
+                    className="group inline-flex items-center gap-2 rounded-full border-2 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl"
                     style={{
-                      backgroundColor: activeService.color.primary,
-                      boxShadow: `0 10px 40px -10px ${activeService.color.primary}80`,
+                      background: `linear-gradient(to bottom, ${activeService.color.primary}, ${activeService.color.secondary})`,
+                      borderColor: 'rgba(255, 255, 255, 0.3)',
+                      boxShadow: `0 10px 30px -10px ${activeService.color.primary}60`,
                     }}
                   >
                     {activeService.cta}
-                    <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                    <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </motion.div>
               </AnimatePresence>
@@ -266,38 +255,74 @@ export function ServicesSection() {
               </div>
             </div>
 
-            {/* Right side - Visual */}
+            {/* Right side - Animated Visual */}
             <div className="relative hidden lg:block">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`visual-${activeIndex}`}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="relative aspect-square overflow-hidden rounded-3xl"
+                  initial={{ opacity: 0, scale: 0.95, rotateY: -15 }}
+                  animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, rotateY: 15 }}
+                  transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="relative aspect-square overflow-hidden rounded-3xl bg-white shadow-2xl"
                   style={{
-                    boxShadow: `0 20px 60px -15px ${activeService.color.primary}30`,
+                    boxShadow: `0 25px 70px -20px ${activeService.color.primary}40`,
+                    transformStyle: 'preserve-3d',
                   }}
                 >
-                  {/* Clean gradient background */}
+                  {/* Subtle gradient overlay */}
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${activeService.color.bg} opacity-10`}
+                    className={`absolute inset-0 bg-gradient-to-br ${activeService.color.bg} opacity-5`}
                   />
 
-                  {/* Rive animation container */}
-                  <div className="absolute inset-0 flex items-center justify-center p-12">
-                    <RiveAnimation src={activeService.riveFile} color={activeService.color} />
-                  </div>
+                  {/* Animated decorative circles */}
+                  <motion.div
+                    className="absolute -top-20 -left-20 h-64 w-64 rounded-full opacity-20 blur-3xl"
+                    style={{ backgroundColor: activeService.color.primary }}
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      opacity: [0.2, 0.3, 0.2],
+                    }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  />
+                  <motion.div
+                    className="absolute -right-20 -bottom-20 h-64 w-64 rounded-full opacity-20 blur-3xl"
+                    style={{ backgroundColor: activeService.color.secondary }}
+                    animate={{
+                      scale: [1.2, 1, 1.2],
+                      opacity: [0.3, 0.2, 0.3],
+                    }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  />
 
-                  {/* Minimal badge */}
-                  <div className="absolute right-6 bottom-6 left-6 flex items-center justify-between">
-                    <div className="rounded-full bg-white/90 px-4 py-2 shadow-lg backdrop-blur-md">
-                      <span className="text-xs font-medium text-gray-600">
-                        {String(activeIndex + 1).padStart(2, '0')} /{' '}
-                        {String(services.length).padStart(2, '0')}
-                      </span>
+                  {/* Image container with animation */}
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center p-16"
+                    animate={{
+                      y: [0, -10, 0],
+                    }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    <div className="relative h-full w-full">
+                      <Image
+                        src={activeService.image}
+                        alt={activeService.label}
+                        fill
+                        className="object-contain drop-shadow-2xl"
+                        priority
+                      />
                     </div>
+                  </motion.div>
+
+                  {/* Minimal progress indicator */}
+                  <div className="absolute right-6 bottom-6 rounded-full bg-white px-4 py-2 shadow-lg">
+                    <span
+                      className="text-xs font-semibold"
+                      style={{ color: activeService.color.primary }}
+                    >
+                      {String(activeIndex + 1).padStart(2, '0')} /{' '}
+                      {String(services.length).padStart(2, '0')}
+                    </span>
                   </div>
                 </motion.div>
               </AnimatePresence>
