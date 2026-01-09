@@ -2,11 +2,15 @@
 
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { AnimatedGradient } from '@/components/ui/AnimatedGradient';
 
 export function Hero() {
   return (
-    <section className="relative flex flex-col justify-center bg-white px-4 pt-8 pb-4 md:px-8 md:pt-12 md:pb-6 lg:px-12">
-      <div className="container mx-auto max-w-6xl">
+    <section className="relative flex flex-col justify-center overflow-hidden px-4 pt-8 pb-4 md:px-8 md:pt-12 md:pb-6 lg:px-12">
+      {/* Animated gradient background */}
+      <AnimatedGradient />
+
+      <div className="relative z-10 container mx-auto max-w-6xl">
         {/* Trust Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
