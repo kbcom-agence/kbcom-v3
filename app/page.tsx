@@ -3,6 +3,7 @@ import { Hero } from '@/components/sections/Hero';
 import { PortfolioCarousel } from '@/components/sections/PortfolioCarousel';
 import { TrustBar } from '@/components/sections/TrustBar';
 import { ServicesSection } from '@/components/sections/ServicesSection';
+import { RecentProjects } from '@/components/sections/RecentProjects';
 import { AboutSection } from '@/components/sections/AboutSection';
 import { generateLocalBusinessSchema } from '@/lib/seo/homepage-schema';
 
@@ -49,6 +50,7 @@ export default function HomePage() {
         <PortfolioCarousel />
         <TrustBar />
         <ServicesSection />
+        <RecentProjects />
         <AboutSection />
       </main>
     </>
