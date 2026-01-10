@@ -75,15 +75,7 @@ const projects = [
   },
 ];
 
-function ProjectCard({
-  project,
-  index,
-  totalProjects,
-}: {
-  project: (typeof projects)[0];
-  index: number;
-  totalProjects: number;
-}) {
+function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const colors = serviceColors[project.category];
   const Icon = serviceIcons[project.category];
@@ -101,7 +93,7 @@ function ProjectCard({
       className="sticky mb-12"
       style={{
         top: `${topOffset}px`,
-        zIndex: totalProjects - index,
+        zIndex: index + 1,
       }}
     >
       <div
@@ -304,12 +296,7 @@ export function RecentProjects() {
         {/* Stacking cards */}
         <div className="relative pb-8">
           {projects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={index}
-              totalProjects={projects.length}
-            />
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
 
