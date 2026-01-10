@@ -90,7 +90,7 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.7, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-      className="sticky mb-12"
+      className="sticky mb-16"
       style={{
         top: `${topOffset}px`,
         zIndex: index + 1,
@@ -246,7 +246,7 @@ export function RecentProjects() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section ref={containerRef} className="relative bg-[#fafafa] py-24 md:py-32">
+    <section ref={containerRef} className="relative bg-[#fafafa] py-32 md:py-40 lg:py-48">
       {/* Background pattern */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.03]"
@@ -256,17 +256,17 @@ export function RecentProjects() {
         }}
       />
 
-      <div className="relative z-10 container mx-auto px-6 md:px-12 lg:px-20">
+      <div className="relative z-10 container mx-auto px-6 md:px-12 lg:px-24">
         {/* Header */}
-        <div className="mb-16 text-center">
+        <div className="mb-20 text-center md:mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-4"
+            className="mb-6"
           >
-            <span className="bg-primary/10 text-primary inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium">
+            <span className="bg-primary/10 text-primary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold shadow-sm">
               <ExternalLink className="h-4 w-4" />
               Projets Récents
             </span>
@@ -277,9 +277,12 @@ export function RecentProjects() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display mb-4 text-4xl font-semibold tracking-tight text-gray-900 md:text-5xl"
+            className="font-display mb-6 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
           >
-            Nos dernières <span className="text-primary">réalisations</span>
+            Nos dernières{' '}
+            <span className="heading-underline heading-underline-center heading-underline-long">
+              <span className="text-gradient">réalisations</span>
+            </span>
           </motion.h2>
 
           <motion.p
@@ -287,7 +290,7 @@ export function RecentProjects() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mx-auto max-w-2xl text-lg text-gray-600"
+            className="mx-auto max-w-2xl text-lg text-gray-600 md:text-xl"
           >
             Découvrez comment nous avons aidé nos clients à atteindre leurs objectifs digitaux.
           </motion.p>

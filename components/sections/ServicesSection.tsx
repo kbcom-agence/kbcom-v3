@@ -160,10 +160,10 @@ export function ServicesSection() {
           }}
         />
 
-        <div className="relative z-10 container mx-auto flex h-full items-center px-6 md:px-12 lg:px-20">
-          <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
+        <div className="relative z-10 container mx-auto flex h-full items-center px-6 md:px-12 lg:px-24">
+          <div className="grid w-full grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-24">
             {/* Left side - Text content */}
-            <div className="max-w-xl">
+            <div className="max-w-2xl">
               <AnimatePresence mode="wait">
                 {/* Service badge - Colored style */}
                 <motion.div
@@ -172,10 +172,10 @@ export function ServicesSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="mb-6"
+                  className="mb-8"
                 >
                   <span
-                    className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-md"
+                    className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold shadow-lg"
                     style={{
                       backgroundColor: activeService.color.light,
                       color: activeService.color.primary,
@@ -193,7 +193,7 @@ export function ServicesSection() {
                   key={`title-${activeIndex}`}
                   {...fadeUpTransition}
                   transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="mb-6 text-4xl leading-[1.1] font-semibold tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
+                  className="font-display text-glow mb-8 text-4xl leading-[1.05] font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl xl:text-7xl"
                 >
                   {activeService.title(activeService.color.primary)}
                 </motion.h2>
@@ -205,7 +205,7 @@ export function ServicesSection() {
                   key={`desc-${activeIndex}`}
                   {...fadeUpTransition}
                   transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="mb-10 text-lg leading-relaxed text-gray-600"
+                  className="mb-12 text-lg leading-relaxed text-gray-600 md:text-xl"
                 >
                   {activeService.description(activeService.color.primary)}
                 </motion.p>
