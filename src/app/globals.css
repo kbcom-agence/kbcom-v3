@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables CSS personnalisées KB-COM */
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+
+  /* Couleurs par service */
+  --color-web: #3b82f6;
+  --color-seo: #10b981;
+  --color-app: #8b5cf6;
+  --color-auto: #f59e0b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* Composants utilitaires */
+@layer components {
+  /* Boutons avec dégradé */
+  .btn-gradient {
+    @apply inline-flex items-center justify-center px-6 py-3 font-medium text-white rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-105;
+  }
+
+  .btn-gradient-primary {
+    @apply btn-gradient bg-gradient-primary;
+  }
+
+  .btn-gradient-web {
+    @apply btn-gradient bg-gradient-web;
+  }
+
+  .btn-gradient-seo {
+    @apply btn-gradient bg-gradient-seo;
+  }
+
+  .btn-gradient-app {
+    @apply btn-gradient bg-gradient-app;
+  }
+
+  .btn-gradient-auto {
+    @apply btn-gradient bg-gradient-auto;
+  }
+
+  /* Texte avec dégradé */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+  }
+
+  .text-gradient-primary {
+    @apply text-gradient bg-gradient-primary;
+  }
+
+  .text-gradient-web {
+    @apply text-gradient bg-gradient-web;
+  }
+
+  .text-gradient-seo {
+    @apply text-gradient bg-gradient-seo;
+  }
+
+  .text-gradient-app {
+    @apply text-gradient bg-gradient-app;
+  }
+
+  .text-gradient-auto {
+    @apply text-gradient bg-gradient-auto;
+  }
+
+  /* Container responsive */
+  .container-kb {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Section spacing */
+  .section {
+    @apply py-16 md:py-24;
+  }
+}
+
+/* Focus styles accessibilité */
+@layer base {
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+  }
+}
+
+/* Animation dégradé texte */
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  animation: gradient 4s ease infinite;
+}
+
+/* Font serif artistique */
+.font-serif-accent {
+  font-family: var(--font-hedvig), Georgia, serif;
+}
+
+/* Font Playfair Display pour les accents titres */
+.font-playfair {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+/* Animation surlignage */
+.highlight-animated {
+  position: relative;
+  display: inline;
+}
+
+.highlight-animated::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -2px;
+  right: -2px;
+  height: 40%;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(99, 102, 241, 0.2));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.25, 0.4, 0.25, 1);
+  z-index: -1;
+}
+
+.highlight-animated.animate::before {
+  transform: scaleX(1);
+}
