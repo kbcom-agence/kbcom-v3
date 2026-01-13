@@ -73,6 +73,9 @@ export const metadata: Metadata = {
       "Création de sites internet, SEO, applications web et automatisation à Tours.",
     images: ["/og-image.jpg"],
   },
+  alternates: {
+    canonical: "https://kb-com.fr",
+  },
   robots: {
     index: true,
     follow: true,
@@ -97,6 +100,67 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${GeistSans.variable} ${GeistMono.variable} ${hedvig.variable} ${cormorant.variable}`}>
       <body className="antialiased">
+        {/* Schema.org LocalBusiness */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "@id": "https://kb-com.fr/#business",
+              "name": "KB-COM - Agence Web Tours",
+              "image": "https://kb-com.fr/og-image.jpg",
+              "description": "Agence web à Tours spécialisée en création de sites internet, référencement SEO, développement d'applications web et automatisation.",
+              "url": "https://kb-com.fr",
+              "telephone": "+33640631953",
+              "email": "contact@kb-com.fr",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Tours",
+                "addressLocality": "Tours",
+                "addressRegion": "Centre-Val de Loire",
+                "postalCode": "37000",
+                "addressCountry": "FR"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 47.394144,
+                "longitude": 0.68484
+              },
+              "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "09:00",
+                "closes": "18:00"
+              },
+              "priceRange": "€€",
+              "sameAs": [
+                "https://www.linkedin.com/company/kb-com",
+                "https://www.instagram.com/kbcom.fr"
+              ],
+              "areaServed": [
+                {
+                  "@type": "City",
+                  "name": "Tours"
+                },
+                {
+                  "@type": "AdministrativeArea",
+                  "name": "Indre-et-Loire"
+                },
+                {
+                  "@type": "Country",
+                  "name": "France"
+                }
+              ],
+              "serviceType": [
+                "Création de sites internet",
+                "Référencement SEO",
+                "Développement d'applications web",
+                "Automatisation"
+              ]
+            })
+          }}
+        />
         <Header />
         {children}
       </body>

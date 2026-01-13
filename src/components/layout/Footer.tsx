@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const services = [
   { name: "Création de Sites Internet", href: "/services/creation-site-internet" },
-  { name: "Référencement SEO", href: "/services/referencement-seo" },
+  { name: "Référencement SEO", href: "/services/agence-seo" },
   { name: "Applications Web", href: "/services/application-web" },
   { name: "Automatisation", href: "/services/automatisation" },
 ];

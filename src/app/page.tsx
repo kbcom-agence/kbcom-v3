@@ -363,15 +363,14 @@ export default function Home() {
             custom={0.15}
             className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6 max-w-4xl mx-auto text-gray-900"
           >
-            Votre{" "}
             <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
-              agence web
+              Agence Web
             </span>{" "}
             à Tours
             <br />
-            pour des sites{" "}
+            Création de sites{" "}
             <span className="font-playfair italic text-[1.15em] font-bold text-gray-900">
-              Exceptionnels.
+              Performants.
             </span>
           </motion.h1>
 
@@ -634,7 +633,7 @@ export default function Home() {
               Services
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Nos <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Expertises.</span>
+              Création Web, SEO & <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Applications.</span>
             </h2>
             <p className="text-lg text-gray-600">
               Des{" "}
@@ -831,7 +830,7 @@ export default function Home() {
               Portfolio
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Nos dernières <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Réalisations.</span>
+              Sites Web Réalisés à <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Tours.</span>
             </h2>
             <p className="text-lg text-gray-600">
               Découvrez les projets qui ont{" "}
@@ -1259,7 +1258,7 @@ export default function Home() {
             Témoignages
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Ce que nos clients disent de <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Nous.</span>
+            Avis Clients Agence Web <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Tours.</span>
           </h2>
           {/* Badge Google 5/5 */}
           <div className="inline-flex items-center gap-3 px-5 py-2.5 mt-4 rounded-full bg-white border border-gray-200 shadow-sm">
@@ -1507,7 +1506,7 @@ export default function Home() {
               FAQ
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Questions <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Fréquentes.</span>
+              FAQ Création Site <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Internet.</span>
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Retrouvez les{" "}

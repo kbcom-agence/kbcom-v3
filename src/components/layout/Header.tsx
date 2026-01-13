@@ -9,10 +9,10 @@ const navigation = [
     name: "Services",
     href: "/services",
     children: [
-      { name: "Création de Sites", href: "/services/creation-site-internet" },
-      { name: "Référencement SEO", href: "/services/referencement-seo" },
-      { name: "Applications Web", href: "/services/application-web" },
-      { name: "Automatisation", href: "/services/automatisation" },
+      { name: "Création de Sites", href: "/services/creation-site-internet", color: "#3B82F6" }, // Bleu
+      { name: "Agence SEO", href: "/services/agence-seo", color: "#EC4899" }, // Rose
+      { name: "Applications Web", href: "/services/application-web", color: "#10B981" }, // Vert
+      { name: "Automatisation", href: "/services/automatisation", color: "#F97316" }, // Orange
     ],
   },
   { name: "Réalisations", href: "/realisations" },
@@ -86,21 +86,25 @@ export default function Header() {
                   {/* Dropdown glassmorphisme */}
                   <div
                     className={`
-                      absolute top-full left-0 mt-2 w-56 rounded-xl border border-white/40
-                      bg-white/70 backdrop-blur-xl shadow-xl shadow-blue-500/10
-                      py-2 transition-all duration-200 origin-top
-                      ${servicesOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}
+                      absolute top-full left-0 pt-2 transition-all duration-200
+                      ${servicesOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"}
                     `}
                   >
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        className="block px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-white/50 transition-colors"
-                      >
-                        {child.name}
-                      </Link>
-                    ))}
+                    <div className="w-60 rounded-xl border border-white/40 bg-white/80 backdrop-blur-xl shadow-xl shadow-blue-500/10 py-2">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className="group flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-white/50 transition-all"
+                        >
+                          <span
+                            className="w-2 h-2 rounded-full transition-transform group-hover:scale-125"
+                            style={{ backgroundColor: child.color }}
+                          />
+                          <span>{child.name}</span>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
               ) : (
@@ -184,9 +188,13 @@ export default function Header() {
                       <Link
                         key={child.href}
                         href={child.href}
-                        className="block px-8 py-2 text-sm text-gray-500"
+                        className="flex items-center gap-3 px-8 py-2 text-sm text-gray-500"
                         onClick={() => setMobileMenuOpen(false)}
                       >
+                        <span
+                          className="w-2 h-2 rounded-full"
+                          style={{ backgroundColor: child.color }}
+                        />
                         {child.name}
                       </Link>
                     ))}

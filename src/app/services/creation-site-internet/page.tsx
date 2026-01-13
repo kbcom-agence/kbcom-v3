@@ -302,7 +302,7 @@ export default function CreationSiteInternet() {
           >
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
             <span className="text-sm font-medium text-blue-600">
-              Artisans & TPE d&apos;Indre-et-Loire
+              Artisans & TPE en France • Basés à Tours
             </span>
           </motion.div>
 
@@ -318,7 +318,7 @@ export default function CreationSiteInternet() {
             <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Site Internet
             </span>{" "}
-            à Tours
+            sur Mesure
             <br />
             <span className="font-playfair italic text-[0.95em] font-bold text-gray-900">
               Votre vitrine pro clé en main.
@@ -361,13 +361,15 @@ export default function CreationSiteInternet() {
             <span className="font-bold text-blue-600 text-2xl">690€</span>.
           </motion.p>
 
-          {/* CTA Bouton pill 3D */}
+          {/* CTAs Boutons pill 3D */}
           <motion.div
             variants={blurReveal}
             initial="hidden"
             animate="visible"
             custom={0.45}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
           >
+            {/* Bouton bleu dégradé */}
             <Link
               href="/devis"
               className="group relative inline-flex items-center justify-center px-8 py-4 overflow-hidden rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
@@ -404,6 +406,25 @@ export default function CreationSiteInternet() {
                   />
                 </svg>
               </span>
+            </Link>
+
+            {/* Bouton blanc/gris 3D pill */}
+            <Link
+              href="/realisations"
+              className="group relative inline-flex items-center justify-center px-8 py-4 overflow-hidden rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              style={{
+                background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)",
+                boxShadow: `
+                  0 1px 2px rgba(0,0,0,0.05),
+                  0 4px 8px rgba(0,0,0,0.1),
+                  0 8px 16px rgba(0,0,0,0.05),
+                  inset 0 1px 1px rgba(255,255,255,0.9),
+                  inset 0 -1px 2px rgba(0,0,0,0.05)
+                `,
+              }}
+            >
+              <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/60 to-transparent opacity-100" style={{ height: "50%" }} />
+              <span className="relative font-semibold text-gray-700">Voir nos réalisations</span>
             </Link>
           </motion.div>
 
@@ -1098,7 +1119,7 @@ export default function CreationSiteInternet() {
                   className="absolute top-8 left-8 right-8 h-1 rounded-full origin-left bg-gray-300"
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: isProcessInView ? 1 : 0 }}
-                  transition={{ duration: 3.5, ease: [0.25, 0.4, 0.25, 1], delay: 0.3 }}
+                  transition={{ duration: 1.5, ease: [0.25, 0.4, 0.25, 1], delay: 0.3 }}
                 />
 
                 {/* Numéros avec couleurs différentes */}
@@ -1124,7 +1145,7 @@ export default function CreationSiteInternet() {
                           borderColor: isProcessInView ? colors.border : "#e5e7eb",
                           color: isProcessInView ? colors.text : "#9ca3af"
                         }}
-                        transition={{ duration: 0.6, delay: 0.5 + index * 0.8 }}
+                        transition={{ duration: 0.6, delay: 0.1 + index * 0.15 }}
                       >
                         {step.number}
                       </motion.div>
@@ -1132,7 +1153,7 @@ export default function CreationSiteInternet() {
                         className="mt-3 text-sm font-semibold text-center max-w-[120px]"
                         initial={{ color: "#9ca3af" }}
                         animate={{ color: isProcessInView ? "#1f2937" : "#9ca3af" }}
-                        transition={{ duration: 0.5, delay: 0.6 + index * 0.8 }}
+                        transition={{ duration: 0.5, delay: 0.15 + index * 0.15 }}
                       >
                         {step.title}
                       </motion.span>
@@ -1162,7 +1183,7 @@ export default function CreationSiteInternet() {
                       opacity: isProcessInView ? 1 : 0,
                       y: isProcessInView ? 0 : 20,
                     }}
-                    transition={{ duration: 0.6, delay: 0.7 + index * 0.8, ease: [0.25, 0.4, 0.25, 1] }}
+                    transition={{ duration: 0.6, delay: 0.2 + index * 0.15, ease: [0.25, 0.4, 0.25, 1] }}
                     whileHover={{ y: -5 }}
                     className="group"
                   >
@@ -2053,7 +2074,7 @@ export default function CreationSiteInternet() {
                   <h4 className="text-white font-semibold mb-3">Services</h4>
                   <ul className="space-y-2">
                     <li><Link href="/services/creation-site-internet" className="text-gray-400 hover:text-white transition-colors text-sm">Création de sites</Link></li>
-                    <li><Link href="/services/referencement-seo" className="text-gray-400 hover:text-white transition-colors text-sm">Référencement SEO</Link></li>
+                    <li><Link href="/services/agence-seo" className="text-gray-400 hover:text-white transition-colors text-sm">Référencement SEO</Link></li>
                     <li><Link href="/services/application-web" className="text-gray-400 hover:text-white transition-colors text-sm">Applications web</Link></li>
                     <li><Link href="/services/automatisation" className="text-gray-400 hover:text-white transition-colors text-sm">Automatisation</Link></li>
                   </ul>
