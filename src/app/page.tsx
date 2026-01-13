@@ -1374,7 +1374,7 @@ export default function Home() {
       {/* Wrapper FAQ + Footer pour effet reveal */}
       <div className="relative">
         {/* Section FAQ - passe par-dessus le footer */}
-        <section ref={faqSectionRef} className="relative z-10 py-24 bg-white overflow-hidden">
+        <section ref={faqSectionRef} className="relative z-10 py-24 bg-gray-50 overflow-hidden">
         {/* Formes décoratives élégantes - Timeline animée au scroll */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           {/* Forme courbe gauche - part du haut gauche, traverse vers le centre-bas */}
