@@ -75,6 +75,14 @@ const cardVariant = {
   },
 };
 
+// Labels et couleurs par type de service
+const serviceTypeLabels: Record<string, { label: string; color: string }> = {
+  sites: { label: "Site Web", color: "#3B82F6" },
+  apps: { label: "Application", color: "#10B981" },
+  automation: { label: "Automatisation", color: "#F97316" },
+  seo: { label: "SEO", color: "#EC4899" },
+};
+
 // Filtres avec couleurs
 const filters = [
   { id: "all", label: "Tous", color: "#6B7280", gradient: "linear-gradient(135deg, #6B7280 0%, #9CA3AF 100%)" },
@@ -97,21 +105,29 @@ function RealisationCard({ realisation, index }: { realisation: Realisation; ind
     >
       <Link href={`/realisations/${realisation.slug}`}>
         <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-          {/* Image placeholder avec couleur */}
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300">
-            <div
-              className="absolute inset-0 opacity-30"
-              style={{ backgroundColor: realisation.color }}
+          {/* Image ou placeholder */}
+          {realisation.image ? (
+            <img
+              src={realisation.image}
+              alt={`${realisation.name} - ${realisation.client}`}
+              className="absolute inset-0 w-full h-full object-cover"
             />
-            {/* Pattern décoratif */}
-            <div
-              className="absolute inset-0 opacity-5"
-              style={{
-                backgroundImage: `radial-gradient(circle at 2px 2px, ${realisation.color} 1px, transparent 1px)`,
-                backgroundSize: '20px 20px'
-              }}
-            />
-          </div>
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300">
+              <div
+                className="absolute inset-0 opacity-30"
+                style={{ backgroundColor: serviceTypeLabels[realisation.serviceType]?.color || realisation.color }}
+              />
+              {/* Pattern décoratif */}
+              <div
+                className="absolute inset-0 opacity-5"
+                style={{
+                  backgroundImage: `radial-gradient(circle at 2px 2px, ${serviceTypeLabels[realisation.serviceType]?.color || realisation.color} 1px, transparent 1px)`,
+                  backgroundSize: '20px 20px'
+                }}
+              />
+            </div>
+          )}
 
           {/* Overlay au hover */}
           <motion.div
@@ -144,9 +160,9 @@ function RealisationCard({ realisation, index }: { realisation: Realisation; ind
           <div className="absolute top-4 left-4">
             <span
               className="px-3 py-1.5 rounded-full text-xs font-semibold text-white shadow-lg"
-              style={{ background: `linear-gradient(135deg, ${realisation.color} 0%, ${realisation.color}CC 100%)` }}
+              style={{ background: `linear-gradient(135deg, ${serviceTypeLabels[realisation.serviceType]?.color || realisation.color} 0%, ${serviceTypeLabels[realisation.serviceType]?.color || realisation.color}CC 100%)` }}
             >
-              {realisation.tags[0]}
+              {serviceTypeLabels[realisation.serviceType]?.label || realisation.serviceType}
             </span>
           </div>
         </div>
@@ -156,7 +172,7 @@ function RealisationCard({ realisation, index }: { realisation: Realisation; ind
           <h3 className="text-xl font-bold text-gray-900 group-hover:text-gray-700 transition-colors">
             {realisation.name}
             {realisation.nameAccent && (
-              <span style={{ color: realisation.accentColor }}>{realisation.nameAccent}</span>
+              <span style={{ color: serviceTypeLabels[realisation.serviceType]?.color || realisation.accentColor }}>{realisation.nameAccent}</span>
             )}
           </h3>
           <p className="text-gray-500 text-sm mt-1">{realisation.client} • {realisation.year}</p>

@@ -6,7 +6,7 @@ import { auth } from '@/lib/auth'
 const serviceColors: Record<string, { color: string; accentColor: string }> = {
   sites: { color: '#3b82f6', accentColor: '#6366f1' },      // Bleu
   seo: { color: '#ec4899', accentColor: '#f43f5e' },        // Rose
-  apps: { color: '#8b5cf6', accentColor: '#a855f7' },       // Violet
+  apps: { color: '#10b981', accentColor: '#059669' },       // Vert
   automation: { color: '#f59e0b', accentColor: '#f97316' }  // Orange
 }
 
@@ -16,10 +16,12 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const serviceType = searchParams.get('serviceType')
     const featured = searchParams.get('featured')
+    const showOnHome = searchParams.get('showOnHome')
 
     const where: Record<string, unknown> = {}
     if (serviceType) where.serviceType = serviceType
     if (featured === 'true') where.featured = true
+    if (showOnHome === 'true') where.showOnHome = true
 
     const realisations = await prisma.realisation.findMany({
       where,
@@ -84,7 +86,8 @@ export async function POST(request: NextRequest) {
         serviceType: data.serviceType,
         color: colors.color,
         url: data.url || null,
-        featured: data.featured || false
+        featured: data.featured || false,
+        showOnHome: data.showOnHome || false
       }
     })
 

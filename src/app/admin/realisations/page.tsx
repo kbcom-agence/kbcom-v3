@@ -12,13 +12,14 @@ interface Realisation {
   serviceType: string
   year: string
   featured: boolean
+  showOnHome: boolean
   color: string
 }
 
 const serviceStyles: Record<string, { bg: string; text: string; dot: string }> = {
   sites: { bg: 'bg-blue-50', text: 'text-blue-700', dot: 'bg-blue-500' },
   seo: { bg: 'bg-pink-50', text: 'text-pink-700', dot: 'bg-pink-500' },
-  apps: { bg: 'bg-purple-50', text: 'text-purple-700', dot: 'bg-purple-500' },
+  apps: { bg: 'bg-emerald-50', text: 'text-emerald-700', dot: 'bg-emerald-500' },
   automation: { bg: 'bg-orange-50', text: 'text-orange-700', dot: 'bg-orange-500' }
 }
 
@@ -72,6 +73,23 @@ export default function RealisationsPage() {
       if (res.ok) {
         setRealisations(realisations.map(r =>
           r.id === realisation.id ? { ...r, featured: !r.featured } : r
+        ))
+      }
+    } catch (error) {
+      console.error('Error updating realisation:', error)
+    }
+  }
+
+  async function toggleShowOnHome(realisation: Realisation) {
+    try {
+      const res = await fetch(`/api/realisations/${realisation.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ showOnHome: !realisation.showOnHome })
+      })
+      if (res.ok) {
+        setRealisations(realisations.map(r =>
+          r.id === realisation.id ? { ...r, showOnHome: !r.showOnHome } : r
         ))
       }
     } catch (error) {
@@ -145,6 +163,9 @@ export default function RealisationsPage() {
                   <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Featured
                   </th>
+                  <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Home
+                  </th>
                   <th className="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Actions
                   </th>
@@ -195,6 +216,22 @@ export default function RealisationsPage() {
                             <span
                               className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${
                                 realisation.featured ? 'left-5' : 'left-1'
+                              }`}
+                            />
+                          </button>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex justify-center">
+                          <button
+                            onClick={() => toggleShowOnHome(realisation)}
+                            className={`relative w-10 h-6 rounded-full transition-colors ${
+                              realisation.showOnHome ? 'bg-green-500' : 'bg-gray-300'
+                            }`}
+                          >
+                            <span
+                              className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+                                realisation.showOnHome ? 'left-5' : 'left-1'
                               }`}
                             />
                           </button>

@@ -6,7 +6,7 @@ import { auth } from '@/lib/auth'
 const serviceColors: Record<string, { color: string; accentColor: string }> = {
   sites: { color: '#3b82f6', accentColor: '#6366f1' },      // Bleu
   seo: { color: '#ec4899', accentColor: '#f43f5e' },        // Rose
-  apps: { color: '#8b5cf6', accentColor: '#a855f7' },       // Violet
+  apps: { color: '#10b981', accentColor: '#059669' },       // Vert
   automation: { color: '#f59e0b', accentColor: '#f97316' }  // Orange
 }
 
@@ -58,34 +58,40 @@ export async function PUT(
     const { id } = await params
     const data = await request.json()
 
+    // Construction des données à mettre à jour (mise à jour partielle)
+    const updateData: Record<string, unknown> = {}
+
+    if (data.slug !== undefined) updateData.slug = data.slug
+    if (data.name !== undefined) updateData.name = data.name
+    if (data.nameAccent !== undefined) updateData.nameAccent = data.nameAccent
+    if (data.client !== undefined) updateData.client = data.client
+    if (data.industry !== undefined) updateData.industry = data.industry
+    if (data.year !== undefined) updateData.year = data.year
+    if (data.shortDescription !== undefined) updateData.shortDescription = data.shortDescription
+    if (data.fullDescription !== undefined) updateData.fullDescription = data.fullDescription
+    if (data.results !== undefined) updateData.results = data.results
+    if (data.testimonialQuote !== undefined) updateData.testimonialQuote = data.testimonialQuote
+    if (data.testimonialAuthor !== undefined) updateData.testimonialAuthor = data.testimonialAuthor
+    if (data.testimonialRole !== undefined) updateData.testimonialRole = data.testimonialRole
+    if (data.image !== undefined) updateData.image = data.image
+    if (data.gallery !== undefined) updateData.gallery = data.gallery
+    if (data.tags !== undefined) updateData.tags = data.tags
+    if (data.technologies !== undefined) updateData.technologies = data.technologies
+    if (data.url !== undefined) updateData.url = data.url
+    if (data.featured !== undefined) updateData.featured = data.featured
+    if (data.showOnHome !== undefined) updateData.showOnHome = data.showOnHome
+
     // Couleurs automatiques selon le type de service
-    const colors = serviceColors[data.serviceType] || serviceColors.sites
+    if (data.serviceType !== undefined) {
+      const colors = serviceColors[data.serviceType] || serviceColors.sites
+      updateData.serviceType = data.serviceType
+      updateData.color = colors.color
+      updateData.accentColor = colors.accentColor
+    }
 
     const realisation = await prisma.realisation.update({
       where: { id: parseInt(id) },
-      data: {
-        slug: data.slug,
-        name: data.name,
-        nameAccent: data.nameAccent,
-        accentColor: colors.accentColor,
-        client: data.client,
-        industry: data.industry,
-        year: data.year,
-        shortDescription: data.shortDescription,
-        fullDescription: data.fullDescription,
-        results: data.results,
-        testimonialQuote: data.testimonialQuote,
-        testimonialAuthor: data.testimonialAuthor,
-        testimonialRole: data.testimonialRole,
-        image: data.image,
-        gallery: data.gallery,
-        tags: data.tags,
-        technologies: data.technologies,
-        serviceType: data.serviceType,
-        color: colors.color,
-        url: data.url,
-        featured: data.featured
-      }
+      data: updateData
     })
 
     return NextResponse.json(realisation)

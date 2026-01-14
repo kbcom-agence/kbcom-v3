@@ -1,8 +1,24 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion";
+
+// Interface pour les réalisations de l'API
+interface Realisation {
+  id: number;
+  name: string;
+  nameAccent?: string;
+  accentColor?: string;
+  slug: string;
+  client: string;
+  industry: string;
+  year: string;
+  image: string;
+  serviceType: string;
+  results: string[];
+  url?: string;
+}
 
 // Animation variants
 const fadeInUp = {
@@ -152,6 +168,23 @@ const avisClients = [
 
 export default function Automatisation() {
   const [openFaq, setOpenFaq] = useState<number | null>(1);
+  const [realisations, setRealisations] = useState<Realisation[]>([]);
+
+  // Charger les réalisations de type "automation"
+  useEffect(() => {
+    async function fetchRealisations() {
+      try {
+        const res = await fetch('/api/realisations?serviceType=automation');
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setRealisations(data.slice(0, 3));
+        }
+      } catch (error) {
+        console.error('Erreur chargement réalisations:', error);
+      }
+    }
+    fetchRealisations();
+  }, []);
 
   // Refs et scroll pour animations
   const processLineRef = useRef<HTMLDivElement>(null);
@@ -619,45 +652,118 @@ export default function Automatisation() {
             </motion.p>
           </motion.div>
 
+          {/* Grille de réalisations avec glassmorphisme */}
           <div className="grid md:grid-cols-3 gap-8 lg:gap-10">
-            {[
-              { title: "Prospection Auto", metier: "Agence marketing", ville: "Tours (37)", gain: "15h/sem", workflows: "12 scénarios Make" },
-              { title: "Facturation 360°", metier: "Cabinet comptable", ville: "Paris", gain: "2j/mois", workflows: "8 workflows n8n" },
-              { title: "Support IA", metier: "E-commerce", ville: "Lyon", gain: "60% tickets", workflows: "ChatGPT + Make" },
-            ].map((realisation, index) => (
-              <motion.div key={index} initial={{ opacity: 0, y: 50, filter: "blur(10px)" }} whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.7, delay: index * 0.15 }} className="group relative">
-                <motion.div className="absolute -inset-4 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" style={{ background: "linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(245, 158, 11, 0.1))", filter: "blur(30px)" }} />
-                <motion.div whileHover={{ y: -8, scale: 1.02 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="relative rounded-[1.5rem] overflow-hidden bg-white border border-gray-100 shadow-xl shadow-gray-200/50">
-                  <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-orange-50 to-amber-50 border-b border-gray-100">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-gradient-to-r from-orange-500 to-amber-500" />
-                      <span className="text-xs font-medium text-gray-600">Automatisation</span>
-                    </div>
-                    <span className="px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold">{realisation.gain} gagnés</span>
-                  </div>
-                  <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-orange-50 via-white to-amber-50">
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center mb-3 shadow-lg shadow-orange-500/30">
-                        <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            {realisations.length > 0 ? realisations.map((realisation, index) => {
+              const hasExternalUrl = !!realisation.url;
+              const CardWrapper = hasExternalUrl ? 'a' : Link;
+              const cardProps = hasExternalUrl
+                ? { href: realisation.url, target: "_blank", rel: "noopener noreferrer" }
+                : { href: `/realisations/${realisation.slug}` };
+
+              return (
+                <motion.div key={realisation.id} initial={{ opacity: 0, y: 50, filter: "blur(10px)" }} whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.7, delay: index * 0.15 }} className="group relative">
+                  {/* Glow effect au hover */}
+                  <motion.div className="absolute -inset-4 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" style={{ background: "linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(245, 158, 11, 0.15))", filter: "blur(40px)" }} />
+
+                  {/* Card principale avec glassmorphisme */}
+                  <CardWrapper {...cardProps}>
+                    <motion.div whileHover={{ y: -8, scale: 1.02 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="relative rounded-[1.5rem] overflow-hidden bg-white/70 backdrop-blur-xl border border-white/50 shadow-xl shadow-orange-500/10">
+                      {/* Header avec glassmorphisme */}
+                      <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-orange-50/80 to-amber-50/80 backdrop-blur-sm border-b border-white/30">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-gradient-to-r from-orange-500 to-amber-500" />
+                          <span className="text-xs font-medium text-gray-600">Automatisation</span>
+                        </div>
+                        {realisation.results && realisation.results[0] && (
+                          <span className="px-2 py-1 rounded-full bg-green-100/80 backdrop-blur-sm text-green-700 text-xs font-bold">{realisation.results[0]}</span>
+                        )}
                       </div>
-                      <span className="text-sm text-gray-500">{realisation.workflows}</span>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors">{realisation.title}</h3>
-                        <p className="text-sm text-gray-500">{realisation.metier}</p>
+
+                      {/* Zone image */}
+                      <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-orange-50 via-white to-amber-50">
+                        {realisation.image ? (
+                          <img src={realisation.image} alt={`${realisation.name}${realisation.nameAccent ? ` ${realisation.nameAccent}` : ''}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        ) : (
+                          <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center mb-3 shadow-lg shadow-orange-500/30">
+                              <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                            </div>
+                            <span className="text-sm text-gray-500">{realisation.client}</span>
+                          </div>
+                        )}
+
+                        {/* Overlay avec CTA */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-white text-sm bg-white/20 backdrop-blur-sm border border-white/30">
+                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                              {realisation.url ? 'Visiter le site' : 'Voir le projet'}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Badge catégorie */}
+                        <div className="absolute top-4 left-4">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white/80 backdrop-blur-sm shadow-sm border border-white/50 text-orange-600">
+                            <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                            Automatisation
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-gray-100 text-xs text-gray-600">
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                        {realisation.ville}
+
+                      {/* Contenu carte avec glassmorphisme */}
+                      <div className="p-6 bg-gradient-to-b from-transparent to-white/50">
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors">
+                              {realisation.name}
+                              {realisation.nameAccent && (
+                                <span style={{ color: realisation.accentColor || '#f97316' }}> {realisation.nameAccent}</span>
+                              )}
+                            </h3>
+                            <p className="text-sm text-gray-500">{realisation.industry}</p>
+                          </div>
+                          <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200/50 text-xs text-gray-600">
+                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            {realisation.year}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </motion.div>
+                  </CardWrapper>
                 </motion.div>
-              </motion.div>
-            ))}
+              );
+            }) : (
+              // Placeholder si pas de réalisations avec glassmorphisme
+              [...Array(3)].map((_, index) => (
+                <motion.div key={index} initial={{ opacity: 0, y: 50, filter: "blur(10px)" }} whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.7, delay: index * 0.15 }} className="group relative">
+                  <motion.div className="absolute -inset-4 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" style={{ background: "linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(245, 158, 11, 0.15))", filter: "blur(40px)" }} />
+                  <motion.div whileHover={{ y: -8, scale: 1.02 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="relative rounded-[1.5rem] overflow-hidden bg-white/70 backdrop-blur-xl border border-white/50 shadow-xl shadow-orange-500/10">
+                    <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-orange-50/80 to-amber-50/80 backdrop-blur-sm border-b border-white/30">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-gradient-to-r from-orange-500 to-amber-500" />
+                        <span className="text-xs font-medium text-gray-600">Automatisation</span>
+                      </div>
+                    </div>
+                    <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-orange-50 via-white to-amber-50">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center mb-3 shadow-lg shadow-orange-500/30">
+                          <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        </div>
+                        <span className="text-sm text-gray-500">Bientôt disponible</span>
+                      </div>
+                    </div>
+                    <div className="p-6 bg-gradient-to-b from-transparent to-white/50">
+                      <div className="h-6 bg-gray-200/80 rounded w-3/4 mb-2 animate-pulse" />
+                      <div className="h-4 bg-gray-100/80 rounded w-1/2 animate-pulse" />
+                    </div>
+                  </motion.div>
+                </motion.div>
+              ))
+            )}
           </div>
 
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.4 }} className="text-center mt-16">

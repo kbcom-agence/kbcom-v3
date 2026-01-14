@@ -60,44 +60,30 @@ const realisationsCarousel = [
   },
 ];
 
-// Données des 3 dernières réalisations (section dédiée)
-const featuredRealisations = [
-  {
-    id: 1,
-    name: "Favikon",
-    nameAccent: "•",
-    accentColor: "#EC4899",
-    description: "Refonte du site pour une image SaaS premium digne d'une startup post-levée.",
-    image: "/realisations/favikon.jpg",
-    tags: ["Site internet", "SaaS", "Design"],
-    serviceType: "sites",
-    color: "#8B5CF6", // Violet
-  },
-  {
-    id: 2,
-    name: "ship",
-    nameAccent: "up",
-    accentColor: "#3B82F6",
-    description: "Refonte complète pour un site plus clair, efficace et professionnel.",
-    image: "/realisations/shipup.jpg",
-    tags: ["Site internet", "Refonte", "UX"],
-    serviceType: "sites",
-    color: "#06B6D4", // Cyan
-  },
-  {
-    id: 3,
-    name: "Maison",
-    nameAccent: "Bleue",
-    accentColor: "#3B82F6",
-    description: "Refonte complète du site pour renforcer la confiance et faciliter la prise de décision.",
-    image: "/realisations/maisonbleue.jpg",
-    tags: ["Formation", "Conciergerie"],
-    result: "x2 sur les ventes dès le premier mois",
-    bottomTags: ["Site internet", "Growth Wow", "Design", "Webflow"],
-    serviceType: "sites",
-    color: "#F97316", // Orange
-  },
-];
+// Interface pour les réalisations de l'API
+interface HomeRealisation {
+  id: number;
+  name: string;
+  nameAccent?: string;
+  accentColor: string;
+  shortDescription: string;
+  image: string;
+  tags: string[];
+  results: string[];
+  serviceType: string;
+  color: string;
+  slug: string;
+  showOnHome: boolean;
+  industry: string;
+}
+
+// Styles et labels par type de service
+const serviceTypeStyles: Record<string, { label: string; color: string; bgClass: string; textClass: string }> = {
+  sites: { label: "Site Web", color: "#3b82f6", bgClass: "bg-blue-100", textClass: "text-blue-700" },
+  seo: { label: "SEO", color: "#ec4899", bgClass: "bg-pink-100", textClass: "text-pink-700" },
+  apps: { label: "Application", color: "#10b981", bgClass: "bg-emerald-100", textClass: "text-emerald-700" },
+  automation: { label: "Automatisation", color: "#f59e0b", bgClass: "bg-orange-100", textClass: "text-orange-700" },
+};
 
 // Données des clients
 const clients = [
@@ -255,6 +241,8 @@ export default function Home() {
   const [openService, setOpenService] = useState<string | null>("sites");
   const [openFaq, setOpenFaq] = useState<number | null>(1);
   const [activeExpertise, setActiveExpertise] = useState<number>(0); // Tab "Agence Tours" par défaut
+  const [homeRealisations, setHomeRealisations] = useState<HomeRealisation[]>([]);
+  const [allRealisations, setAllRealisations] = useState<HomeRealisation[]>([]);
 
   // Ref et scroll pour l'animation timeline FAQ
   const faqSectionRef = useRef<HTMLElement>(null);
@@ -305,6 +293,25 @@ export default function Home() {
 
     const animation = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animation);
+  }, []);
+
+  // Charger les réalisations
+  useEffect(() => {
+    async function fetchRealisations() {
+      try {
+        // Charger toutes les réalisations (pour le carousel)
+        const resAll = await fetch('/api/realisations');
+        const dataAll = await resAll.json();
+        if (Array.isArray(dataAll)) {
+          setAllRealisations(dataAll);
+          // Filtrer celles à afficher dans la section home
+          setHomeRealisations(dataAll.filter((r: HomeRealisation) => r.showOnHome));
+        }
+      } catch (error) {
+        console.error('Erreur chargement réalisations:', error);
+      }
+    }
+    fetchRealisations();
   }, []);
 
   return (
@@ -500,21 +507,56 @@ export default function Home() {
                 className="flex gap-4 overflow-hidden"
                 style={{ scrollBehavior: "auto" }}
               >
-                {[...realisationsCarousel, ...realisationsCarousel].map((item, index) => (
-                  <div
-                    key={`${item.id}-${index}`}
-                    className="flex-shrink-0 w-64 group cursor-pointer"
-                  >
-                    <div className="relative h-40 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-indigo-50 to-purple-100" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                        <p className="text-xs text-blue-300 font-medium mb-1">{item.category}</p>
-                        <p className="text-white font-semibold">{item.title}</p>
+                {allRealisations.length > 0 ? (
+                  [...allRealisations, ...allRealisations].map((item, index) => (
+                    <Link
+                      href={`/realisations/${item.slug}`}
+                      key={`${item.id}-${index}`}
+                      className="flex-shrink-0 w-64 group cursor-pointer"
+                    >
+                      <div className="relative h-40 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="absolute inset-0 w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div
+                            className="absolute inset-0"
+                            style={{ backgroundColor: serviceTypeStyles[item.serviceType]?.color || '#6366f1', opacity: 0.2 }}
+                          />
+                        )}
+                        {/* Overlay permanent avec infos */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                          <span
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold mb-2 backdrop-blur-sm"
+                            style={{
+                              backgroundColor: `${serviceTypeStyles[item.serviceType]?.color || '#6366f1'}20`,
+                              color: serviceTypeStyles[item.serviceType]?.color || '#93c5fd',
+                              border: `1px solid ${serviceTypeStyles[item.serviceType]?.color || '#6366f1'}40`
+                            }}
+                          >
+                            <span
+                              className="w-1.5 h-1.5 rounded-full"
+                              style={{ backgroundColor: serviceTypeStyles[item.serviceType]?.color || '#6366f1' }}
+                            />
+                            {serviceTypeStyles[item.serviceType]?.label || item.industry}
+                          </span>
+                          <p className="text-white font-semibold text-sm">{item.name}</p>
+                        </div>
                       </div>
+                    </Link>
+                  ))
+                ) : (
+                  // Placeholder pendant le chargement
+                  [...Array(6)].map((_, index) => (
+                    <div key={index} className="flex-shrink-0 w-64">
+                      <div className="relative h-40 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse" />
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -1223,9 +1265,10 @@ export default function Home() {
         {/* Cards sticky stack */}
         <div className="container-kb px-4 pb-24">
           <div className="max-w-5xl mx-auto">
-            {featuredRealisations.map((realisation, index) => {
+            {homeRealisations.map((realisation, index) => {
               const isImageLeft = index % 2 === 0;
               const topOffset = 100 + index * 20; // Décalage progressif pour l'empilement
+              const serviceStyle = serviceTypeStyles[realisation.serviceType] || serviceTypeStyles.sites;
 
               return (
                 <motion.div
@@ -1238,44 +1281,62 @@ export default function Home() {
                   style={{ top: `${topOffset}px`, zIndex: index + 1 }}
                 >
                   {/* Card container */}
-                  <div
-                    className="relative rounded-3xl bg-white border border-gray-100 overflow-hidden shadow-xl shadow-gray-300/30"
+                  <Link
+                    href={`/realisations/${realisation.slug}`}
+                    className="block relative rounded-3xl bg-white border border-gray-100 overflow-hidden shadow-xl shadow-gray-300/30 hover:shadow-2xl transition-shadow duration-300"
                   >
-                    {/* Aura colorée - sur la partie texte (côté opposé à l'image) */}
+                    {/* Aura colorée - couleur basée sur le type de service */}
                     <div
                       className={`
                         absolute w-[400px] h-[400px] rounded-full blur-[100px] opacity-30 pointer-events-none
                         ${isImageLeft ? "-top-32 -right-32" : "-top-32 -left-32"}
                       `}
-                      style={{ backgroundColor: realisation.color }}
+                      style={{ backgroundColor: serviceStyle.color }}
                     />
 
                     {/* Contenu */}
                     <div className={`relative flex flex-col md:flex-row items-stretch ${!isImageLeft ? "md:flex-row-reverse" : ""}`}>
                       {/* Image */}
                       <div className="relative md:w-1/2 aspect-[4/3] md:aspect-auto md:min-h-[380px] overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200">
-                          {/* Placeholder gradient stylisé */}
-                          <div
-                            className="absolute inset-0 opacity-40"
-                            style={{
-                              background: `linear-gradient(135deg, ${realisation.color}30 0%, transparent 60%)`
-                            }}
+                        {realisation.image ? (
+                          <img
+                            src={realisation.image}
+                            alt={`${realisation.name} - ${realisation.shortDescription}`}
+                            className="absolute inset-0 w-full h-full object-cover"
                           />
-                          {/* Motif décoratif */}
-                          <div className="absolute inset-0 flex items-center justify-center">
+                        ) : (
+                          <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200">
+                            {/* Placeholder gradient stylisé */}
                             <div
-                              className="text-7xl font-bold opacity-[0.08]"
-                              style={{ color: realisation.color }}
-                            >
-                              {realisation.name}
+                              className="absolute inset-0 opacity-40"
+                              style={{
+                                background: `linear-gradient(135deg, ${serviceStyle.color}30 0%, transparent 60%)`
+                              }}
+                            />
+                            {/* Motif décoratif */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div
+                                className="text-7xl font-bold opacity-[0.08]"
+                                style={{ color: serviceStyle.color }}
+                              >
+                                {realisation.name}
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )}
                       </div>
 
                       {/* Texte */}
                       <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                        {/* Badge type de service */}
+                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full w-fit mb-4 ${serviceStyle.bgClass} ${serviceStyle.textClass}`}>
+                          <span
+                            className="w-1.5 h-1.5 rounded-full"
+                            style={{ backgroundColor: serviceStyle.color }}
+                          />
+                          {serviceStyle.label}
+                        </span>
+
                         {/* Logo / Nom */}
                         <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                           {realisation.name}
@@ -1286,13 +1347,13 @@ export default function Home() {
 
                         {/* Description */}
                         <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                          {realisation.description}
+                          {realisation.shortDescription}
                         </p>
 
                         {/* Tags inline */}
-                        {realisation.tags && (
+                        {realisation.tags && realisation.tags.length > 0 && (
                           <div className="flex flex-wrap gap-4 mb-6">
-                            {realisation.tags.map((tag) => (
+                            {realisation.tags.slice(0, 3).map((tag) => (
                               <span
                                 key={tag}
                                 className="text-sm text-gray-500"
@@ -1304,30 +1365,16 @@ export default function Home() {
                         )}
 
                         {/* Résultat si présent */}
-                        {realisation.result && (
+                        {realisation.results && realisation.results.length > 0 && (
                           <div className="mb-6">
                             <p className="text-lg font-semibold text-gray-900">
-                              {realisation.result}
+                              {realisation.results[0]}
                             </p>
-                          </div>
-                        )}
-
-                        {/* Tags bottom si présents */}
-                        {realisation.bottomTags && (
-                          <div className="flex flex-wrap gap-2">
-                            {realisation.bottomTags.map((tag) => (
-                              <span
-                                key={tag}
-                                className="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-full"
-                              >
-                                {tag}
-                              </span>
-                            ))}
                           </div>
                         )}
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </motion.div>
               );
             })}

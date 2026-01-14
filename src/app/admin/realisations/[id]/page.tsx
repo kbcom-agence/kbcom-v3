@@ -9,7 +9,7 @@ import { RichTextEditor } from '@/components/admin/RichTextEditor'
 const serviceTypes = [
   { value: 'sites', label: 'Site Web', color: 'bg-blue-500' },
   { value: 'seo', label: 'SEO', color: 'bg-pink-500' },
-  { value: 'apps', label: 'Application', color: 'bg-purple-500' },
+  { value: 'apps', label: 'Application', color: 'bg-emerald-500' },
   { value: 'automation', label: 'Automatisation', color: 'bg-orange-500' }
 ]
 
@@ -237,7 +237,7 @@ export default function EditRealisationPage() {
                 onChange={(path) => setFormData(prev => ({ ...prev, image: path }))}
                 onAltChange={(alt) => setFormData(prev => ({ ...prev, imageAlt: alt }))}
                 folder="realisations"
-                aspectRatio={16/9}
+                aspectRatio={4 / 3}
               />
             </div>
           </div>

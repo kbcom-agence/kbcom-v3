@@ -37,6 +37,14 @@ interface Realisation {
   };
 }
 
+// Couleurs par type de service
+const serviceTypeColors: Record<string, { color: string; accentColor: string }> = {
+  sites: { color: "#3b82f6", accentColor: "#6366f1" },
+  seo: { color: "#ec4899", accentColor: "#f43f5e" },
+  apps: { color: "#10b981", accentColor: "#059669" },
+  automation: { color: "#f59e0b", accentColor: "#f97316" },
+};
+
 // Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
@@ -127,6 +135,11 @@ export default function RealisationDetailPage({ params }: { params: Promise<{ sl
     );
   }
 
+  // Couleurs basées sur le type de service (priorité sur les couleurs stockées en DB)
+  const colors = serviceTypeColors[realisation.serviceType] || { color: projectColor, accentColor: projectAccentColor };
+  const projectColor = colors.color;
+  const projectAccentColor = colors.accentColor;
+
   return (
     <main className="bg-[#0c0c1d]">
       {/* Wrapper pour l'effet sticky reveal */}
@@ -137,12 +150,12 @@ export default function RealisationDetailPage({ params }: { params: Promise<{ sl
         <motion.div
           className="absolute inset-0"
           style={{
-            background: `linear-gradient(135deg, ${realisation.color}15 0%, transparent 50%)`,
+            background: `linear-gradient(135deg, ${projectColor}15 0%, transparent 50%)`,
             y: heroY,
           }}
         />
         <div className="absolute top-20 right-0 w-[600px] h-[600px] rounded-full blur-3xl opacity-30"
-          style={{ backgroundColor: realisation.color }}
+          style={{ backgroundColor: projectColor }}
         />
 
         <div className="container-kb relative">
@@ -166,7 +179,7 @@ export default function RealisationDetailPage({ params }: { params: Promise<{ sl
               <motion.div variants={fadeInUp} custom={0.05}>
                 <span
                   className="inline-flex px-4 py-1.5 rounded-full text-sm font-medium text-white"
-                  style={{ backgroundColor: realisation.color }}
+                  style={{ backgroundColor: projectColor }}
                 >
                   {realisation.tags[0]}
                 </span>
@@ -176,7 +189,7 @@ export default function RealisationDetailPage({ params }: { params: Promise<{ sl
               <motion.div variants={fadeInUp} custom={0.05}>
                 <span
                   className="inline-flex px-4 py-1.5 rounded-full text-sm font-medium text-white"
-                  style={{ backgroundColor: realisation.color }}
+                  style={{ backgroundColor: projectColor }}
                 >
                   {realisation.industry}
                 </span>
@@ -191,7 +204,7 @@ export default function RealisationDetailPage({ params }: { params: Promise<{ sl
             >
               {realisation.name}
               {realisation.nameAccent && (
-                <span style={{ color: realisation.accentColor }}>{realisation.nameAccent}</span>
+                <span style={{ color: projectAccentColor }}>{realisation.nameAccent}</span>
               )}
             </motion.h1>
 
@@ -230,7 +243,7 @@ export default function RealisationDetailPage({ params }: { params: Promise<{ sl
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-1 text-lg font-medium hover:underline flex items-center gap-1"
-                    style={{ color: realisation.color }}
+                    style={{ color: projectColor }}
                   >
                     Visiter
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -253,18 +266,25 @@ export default function RealisationDetailPage({ params }: { params: Promise<{ sl
             transition={{ duration: 0.8, delay: 0.3 }}
             className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl"
           >
-            {/* Placeholder image */}
-            <div
-              className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300"
-            >
-              <div
-                className="absolute inset-0 opacity-30"
-                style={{ backgroundColor: realisation.color }}
+            {realisation.image ? (
+              <img
+                src={realisation.image}
+                alt={`Projet ${realisation.name} - ${realisation.client}`}
+                className="absolute inset-0 w-full h-full object-cover"
               />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-white/50 text-xl font-medium">Image du projet</span>
+            ) : (
+              <div
+                className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300"
+              >
+                <div
+                  className="absolute inset-0 opacity-30"
+                  style={{ backgroundColor: projectColor }}
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-white/50 text-xl font-medium">Image du projet</span>
+                </div>
               </div>
-            </div>
+            )}
           </motion.div>
         </div>
       </section>
@@ -321,9 +341,9 @@ export default function RealisationDetailPage({ params }: { params: Promise<{ sl
                         <div className="flex items-center gap-3">
                           <div
                             className="w-10 h-10 rounded-full flex items-center justify-center"
-                            style={{ backgroundColor: `${realisation.color}20` }}
+                            style={{ backgroundColor: `${projectColor}20` }}
                           >
-                            <svg className="w-5 h-5" style={{ color: realisation.color }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-5 h-5" style={{ color: projectColor }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
@@ -355,7 +375,7 @@ export default function RealisationDetailPage({ params }: { params: Promise<{ sl
                     <div className="mt-6 flex items-center gap-4">
                       <div
                         className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
-                        style={{ backgroundColor: realisation.color }}
+                        style={{ backgroundColor: projectColor }}
                       >
                         {realisation.testimonial.author.charAt(0)}
                       </div>
@@ -408,7 +428,7 @@ export default function RealisationDetailPage({ params }: { params: Promise<{ sl
                         <span
                           key={i}
                           className="px-3 py-1.5 rounded-lg text-sm font-medium text-white"
-                          style={{ backgroundColor: realisation.color }}
+                          style={{ backgroundColor: projectColor }}
                         >
                           {tag}
                         </span>
