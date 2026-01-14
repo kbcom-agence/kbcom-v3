@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import HomepageSchemas from "@/components/seo/HomepageSchemas";
 
 
 // Animation variants pour le blur reveal
@@ -253,6 +254,7 @@ export default function Home() {
   const clientsRef = useRef<HTMLDivElement>(null);
   const [openService, setOpenService] = useState<string | null>("sites");
   const [openFaq, setOpenFaq] = useState<number | null>(1);
+  const [activeExpertise, setActiveExpertise] = useState<number>(0); // Tab "Agence Tours" par défaut
 
   // Ref et scroll pour l'animation timeline FAQ
   const faqSectionRef = useRef<HTMLElement>(null);
@@ -307,6 +309,9 @@ export default function Home() {
 
   return (
     <div className="bg-white min-h-screen">
+      {/* Schema.org JSON-LD pour SEO */}
+      <HomepageSchemas />
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gray-50 pt-24">
         {/* Auras de couleur */}
@@ -369,7 +374,11 @@ export default function Home() {
             à Tours
             <br />
             Création de sites{" "}
-            <span className="font-playfair italic text-[1.15em] font-bold text-gray-900">
+            <span className="relative font-playfair italic text-[1.15em] font-bold text-gray-900">
+              <span
+                className="absolute left-0 right-0 bottom-[0.1em] h-[0.35em] bg-gradient-to-r from-blue-400/40 via-indigo-400/40 to-purple-400/40 -z-10 rounded-sm"
+                style={{ transform: 'skewX(-6deg)' }}
+              />
               Performants.
             </span>
           </motion.h1>
@@ -380,19 +389,32 @@ export default function Home() {
             initial="hidden"
             animate="visible"
             custom={0.3}
-            className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-6 leading-relaxed"
+            className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-4 leading-relaxed"
           >
-            Sites internet, référencement SEO, applications web et automatisation.
-            Nous transformons vos idées en solutions digitales performantes.
+            Votre partenaire digital en Indre-et-Loire pour la création de sites internet sur mesure,
+            le référencement SEO, les applications web et l&apos;automatisation de vos processus.
+          </motion.p>
+          <motion.p
+            variants={blurReveal}
+            initial="hidden"
+            animate="visible"
+            custom={0.35}
+            className="text-base text-gray-500 max-w-xl mx-auto mb-6"
+          >
+            Nous accompagnons les PME et TPE de Tours et de toute la France
+            dans leur transformation digitale avec des solutions performantes et durables.
           </motion.p>
 
-          {/* Avis Google */}
-          <motion.div
+          {/* Avis Google - Cliquable */}
+          <motion.a
+            href="https://www.google.com/search?q=KB-COM+Tours+avis"
+            target="_blank"
+            rel="noopener noreferrer"
             variants={blurReveal}
             initial="hidden"
             animate="visible"
             custom={0.45}
-            className="flex items-center justify-center gap-3 mb-10"
+            className="flex items-center justify-center gap-3 mb-10 hover:opacity-80 transition-opacity cursor-pointer"
           >
             {/* Logo Google */}
             <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
@@ -410,7 +432,7 @@ export default function Home() {
               ))}
             </div>
             <span className="text-sm font-medium text-gray-600">5/5 sur Google</span>
-          </motion.div>
+          </motion.a>
 
           {/* Boutons style pill 3D */}
           <motion.div
@@ -769,6 +791,353 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Section Expertise - Style Dark avec Parallax */}
+      <section className="relative py-0" style={{ overflowX: 'clip', overflowY: 'visible' }}>
+        {/* Background sombre avec dégradé */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950" />
+
+        {/* Grille animée en arrière-plan */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+              backgroundSize: "60px 60px",
+            }}
+          />
+        </div>
+
+        {/* Orbes lumineux */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 1.5 }}
+          className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-500/20 rounded-full blur-[150px]"
+        />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 1.5, delay: 0.2 }}
+          className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[120px]"
+        />
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 2 }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-500/15 rounded-full blur-[180px]"
+        />
+
+        {/* Lignes décoratives */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
+          <motion.line
+            x1="0%" y1="20%" x2="100%" y2="80%"
+            stroke="url(#expertiseLineGradient1)"
+            strokeWidth="1"
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 2, delay: 0.5 }}
+          />
+          <motion.line
+            x1="100%" y1="10%" x2="0%" y2="90%"
+            stroke="url(#expertiseLineGradient2)"
+            strokeWidth="1"
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 2, delay: 0.7 }}
+          />
+          <defs>
+            <linearGradient id="expertiseLineGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(59,130,246,0)" />
+              <stop offset="50%" stopColor="rgba(59,130,246,0.4)" />
+              <stop offset="100%" stopColor="rgba(59,130,246,0)" />
+            </linearGradient>
+            <linearGradient id="expertiseLineGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(139,92,246,0)" />
+              <stop offset="50%" stopColor="rgba(139,92,246,0.4)" />
+              <stop offset="100%" stopColor="rgba(139,92,246,0)" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Contenu principal */}
+        <div className="relative z-10 py-24 md:py-32">
+          <div className="container-kb px-4">
+            {/* Header */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-center mb-16"
+            >
+              <motion.span
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="inline-block px-6 py-2 mb-6 text-sm font-medium rounded-full border border-blue-400/30 bg-blue-500/10 backdrop-blur-sm text-blue-300"
+              >
+                Notre Expertise
+              </motion.span>
+
+              <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+              >
+                Pourquoi choisir notre
+              </motion.h2>
+
+              {/* Texte gradient animé */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="relative inline-block"
+              >
+                <motion.span
+                  className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent bg-[length:200%_auto]"
+                  animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                >
+                  Agence Web à Tours ?
+                </motion.span>
+              </motion.div>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+                className="text-xl text-gray-300 mt-8 max-w-2xl mx-auto"
+              >
+                Une équipe locale, des{" "}
+                <span className="text-white font-semibold">compétences nationales</span>
+              </motion.p>
+            </motion.div>
+
+          </div>
+
+          {/* Tabs des expertises */}
+          <div className="container-kb px-4 mb-12">
+            {/* Boutons des tabs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8"
+            >
+              {[
+                { id: 0, icon: "📍", label: "Agence Tours" },
+                { id: 1, icon: "⚡", label: "Sites Web" },
+                { id: 2, icon: "🔍", label: "SEO" },
+                { id: 3, icon: "🤝", label: "Support" },
+              ].map((tab) => (
+                <motion.button
+                  key={tab.id}
+                  onClick={() => setActiveExpertise(tab.id)}
+                  className={`relative px-4 md:px-6 py-2.5 md:py-3 rounded-full text-sm md:text-base font-medium transition-colors duration-300 ${
+                    activeExpertise === tab.id
+                      ? "text-white"
+                      : "text-gray-400 hover:text-gray-200"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {activeExpertise === tab.id && (
+                    <motion.div
+                      layoutId="activeExpertiseTab"
+                      className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-indigo-500/30 to-purple-500/30 rounded-full border border-white/20"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative flex items-center gap-2">
+                    <span>{tab.icon}</span>
+                    <span className="hidden sm:inline">{tab.label}</span>
+                  </span>
+                </motion.button>
+              ))}
+            </motion.div>
+
+            {/* Contenu des tabs */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="relative max-w-3xl mx-auto"
+            >
+              <AnimatePresence mode="wait">
+                {activeExpertise === 0 && (
+                  <motion.div
+                    key="tab-0"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="p-6 md:p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm"
+                  >
+                    <div className="text-center mb-4">
+                      <span className="text-4xl">📍</span>
+                    </div>
+                    <h3 className="text-xl md:text-2xl text-white font-bold mb-4 text-center">Agence Digitale Basée à Tours</h3>
+                    <p className="text-gray-300 leading-relaxed text-center">
+                      Implantée au coeur de la <span className="text-white font-medium">Touraine</span>, rue de Clocheville à Tours, notre agence web accompagne les entreprises locales et nationales dans leur transformation digitale.
+                      En tant que <span className="text-white font-medium">développeur web à Tours</span>, nous comprenons les enjeux spécifiques des PME et TPE de la région <span className="text-white font-medium">Centre-Val de Loire</span>.
+                      Notre proximité géographique permet des échanges réguliers en présentiel et un suivi personnalisé.
+                    </p>
+                  </motion.div>
+                )}
+                {activeExpertise === 1 && (
+                  <motion.div
+                    key="tab-1"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="p-6 md:p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm"
+                  >
+                    <div className="text-center mb-4">
+                      <span className="text-4xl">⚡</span>
+                    </div>
+                    <h3 className="text-xl md:text-2xl text-white font-bold mb-4 text-center">Création de Sites Internet Sur Mesure</h3>
+                    <p className="text-gray-300 leading-relaxed text-center">
+                      Chaque projet de <span className="text-white font-medium">création de site internet</span> est unique. Site vitrine, e-commerce ou application web, nous développons des solutions personnalisées avec <span className="text-white font-medium">Next.js et React</span>.
+                      Nos sites garantissent des performances optimales, un temps de chargement rapide et une expérience utilisateur fluide.
+                      Le <span className="text-white font-medium">responsive design</span> et l&apos;optimisation SEO sont intégrés dès la conception.
+                    </p>
+                  </motion.div>
+                )}
+                {activeExpertise === 2 && (
+                  <motion.div
+                    key="tab-2"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="p-6 md:p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm"
+                  >
+                    <div className="text-center mb-4">
+                      <span className="text-4xl">🔍</span>
+                    </div>
+                    <h3 className="text-xl md:text-2xl text-white font-bold mb-4 text-center">Référencement Naturel et Visibilité Google</h3>
+                    <p className="text-gray-300 leading-relaxed text-center">
+                      Être visible sur <span className="text-white font-medium">Google</span> est essentiel pour attirer de nouveaux clients. Notre expertise en <span className="text-white font-medium">référencement naturel (SEO)</span> vous permet de vous positionner sur les requêtes stratégiques.
+                      Nous réalisons des audits techniques complets et mettons en place une stratégie de mots-clés adaptée, que vous cibliez Tours, l&apos;<span className="text-white font-medium">Indre-et-Loire (37)</span> ou toute la France.
+                    </p>
+                  </motion.div>
+                )}
+                {activeExpertise === 3 && (
+                  <motion.div
+                    key="tab-3"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="p-6 md:p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm"
+                  >
+                    <div className="text-center mb-4">
+                      <span className="text-4xl">🤝</span>
+                    </div>
+                    <h3 className="text-xl md:text-2xl text-white font-bold mb-4 text-center">Accompagnement et Support Réactif</h3>
+                    <p className="text-gray-300 leading-relaxed text-center">
+                      Au-delà de la création de votre <span className="text-white font-medium">site web professionnel</span>, nous assurons un accompagnement complet : formation, maintenance technique, mises à jour de sécurité et évolutions fonctionnelles.
+                      Notre équipe reste disponible pour faire évoluer votre projet. Nous proposons des forfaits de <span className="text-white font-medium">maintenance</span> adaptés aux entreprises du 37 et de toute la France.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+
+            {/* Contenu SEO caché pour l'indexation */}
+            <div className="sr-only">
+              <h3>Agence Digitale Basée à Tours</h3>
+              <p>Implantée au coeur de la Touraine, rue de Clocheville à Tours, notre agence web accompagne les entreprises locales et nationales dans leur transformation digitale. En tant que développeur web à Tours, nous comprenons les enjeux spécifiques des PME et TPE de la région Centre-Val de Loire. Notre proximité géographique permet des échanges réguliers en présentiel et un suivi personnalisé.</p>
+              <h3>Création de Sites Internet Sur Mesure</h3>
+              <p>Chaque projet de création de site internet est unique. Site vitrine, e-commerce ou application web, nous développons des solutions personnalisées avec Next.js et React. Nos sites garantissent des performances optimales, un temps de chargement rapide et une expérience utilisateur fluide. Le responsive design et l&apos;optimisation SEO sont intégrés dès la conception.</p>
+              <h3>Référencement Naturel et Visibilité Google</h3>
+              <p>Être visible sur Google est essentiel pour attirer de nouveaux clients. Notre expertise en référencement naturel (SEO) vous permet de vous positionner sur les requêtes stratégiques. Nous réalisons des audits techniques complets et mettons en place une stratégie de mots-clés adaptée, que vous cibliez Tours, l&apos;Indre-et-Loire (37) ou toute la France.</p>
+              <h3>Accompagnement et Support Réactif</h3>
+              <p>Au-delà de la création de votre site web professionnel, nous assurons un accompagnement complet : formation, maintenance technique, mises à jour de sécurité et évolutions fonctionnelles. Notre équipe reste disponible pour faire évoluer votre projet. Nous proposons des forfaits de maintenance adaptés aux entreprises du 37 et de toute la France.</p>
+            </div>
+          </div>
+
+          {/* Texte SEO et CTA - retour dans le container */}
+          <div className="container-kb px-4">
+            {/* Texte SEO supplémentaire - plus compact */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="max-w-3xl mx-auto text-center"
+            >
+              <p className="text-gray-300 text-sm leading-relaxed">
+                Que vous soyez une <span className="text-white font-medium">startup</span>, une <span className="text-white font-medium">PME</span> ou une entreprise établie,
+                <span className="text-white font-medium"> KB-COM</span> est votre partenaire pour tous vos projets web dans le <span className="text-white font-medium">département 37</span> et au-delà.
+                Notre <span className="text-white font-medium">agence digitale à Tours</span> combine expertise technique, créativité et connaissance du tissu économique local.
+                De la <span className="text-white font-medium">création de site vitrine</span> à l&apos;<span className="text-white font-medium">application web</span>, en passant par le <span className="text-white font-medium">référencement SEO</span>, nous propulsons votre activité en ligne.
+              </p>
+            </motion.div>
+
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 1 }}
+              className="text-center mt-12"
+            >
+              <Link
+                href="/devis"
+                className="group relative inline-flex items-center justify-center px-10 py-5 overflow-hidden rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                style={{
+                  background: "linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%)",
+                  boxShadow: "0 0 40px rgba(59,130,246,0.4), 0 4px 20px rgba(99,102,241,0.3), inset 0 1px 1px rgba(255,255,255,0.3)",
+                }}
+              >
+                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/30 to-transparent opacity-100" style={{ height: "50%" }} />
+                <span className="relative text-lg font-semibold text-white drop-shadow-sm flex items-center gap-3">
+                  Discutons de votre projet
+                  <motion.svg
+                    className="w-6 h-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </motion.svg>
+                </span>
+              </Link>
+              <p className="text-sm text-gray-500 mt-4">
+                Devis gratuit • Sans engagement • Réponse sous 24h
+              </p>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Effet de vague en bas pour transition */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 120" fill="none" className="w-full">
+            <path
+              d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
+              fill="#f9fafb"
+            />
+          </svg>
+        </div>
+      </section>
+
       {/* Section Réalisations - Sticky Stack */}
       <section className="relative bg-gray-50" style={{ overflowX: 'clip' }}>
         {/* Effets de lumière en arrière-plan */}
@@ -1031,7 +1400,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl text-gray-600 leading-relaxed mb-16"
+              className="text-xl text-gray-600 leading-relaxed mb-8"
             >
               Basés à Tours, nous accompagnons les entreprises dans leur{" "}
               <motion.span
@@ -1066,6 +1435,17 @@ export default function Home() {
                 solutions sur mesure
               </motion.span>{" "}
               qui génèrent des résultats concrets.
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-lg text-gray-500 leading-relaxed mb-16 max-w-3xl mx-auto"
+            >
+              De la création de site vitrine à l&apos;application web complexe, en passant par le référencement SEO et l&apos;automatisation,
+              nous maîtrisons l&apos;ensemble des compétences nécessaires pour propulser votre activité en ligne.
+              Situés rue de Clocheville à Tours, nous travaillons en étroite collaboration avec nos clients de l&apos;Indre-et-Loire et de toute la France.
             </motion.p>
 
             {/* Stats animées en ligne avec effets glassmorphism */}
@@ -1260,8 +1640,13 @@ export default function Home() {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Avis Clients Agence Web <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Tours.</span>
           </h2>
-          {/* Badge Google 5/5 */}
-          <div className="inline-flex items-center gap-3 px-5 py-2.5 mt-4 rounded-full bg-white border border-gray-200 shadow-sm">
+          {/* Badge Google 5/5 - Cliquable */}
+          <a
+            href="https://www.google.com/search?q=KB-COM+Tours+avis"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 mt-4 hover:opacity-80 transition-opacity cursor-pointer"
+          >
             <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -1276,7 +1661,7 @@ export default function Home() {
               ))}
             </div>
             <span className="text-sm font-semibold text-gray-700">5/5 sur Google</span>
-          </div>
+          </a>
         </motion.div>
 
         {/* Carousel container avec gradient fade */}
@@ -1675,26 +2060,45 @@ export default function Home() {
                 </p>
                 {/* Réseaux sociaux */}
                 <div className="flex gap-2">
-                  <a href="#" className="w-8 h-8 rounded-full bg-white/5 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-gray-700 transition-all">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-                  </a>
-                  <a href="#" className="w-8 h-8 rounded-full bg-white/5 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-gray-700 transition-all">
+                  <a href="https://www.linkedin.com/in/kevin-boutant/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all" aria-label="LinkedIn">
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                   </a>
-                  <a href="#" className="w-8 h-8 rounded-full bg-white/5 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-gray-700 transition-all">
+                  <a href="https://www.instagram.com/agence.kbcom/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/5 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-500 hover:border-pink-500 transition-all" aria-label="Instagram">
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                   </a>
                 </div>
+                {/* Badge Google Avis */}
+                <a
+                  href="https://g.page/r/CQExample/review"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-3 px-3 py-1.5 bg-white/5 border border-gray-800 hover:bg-white/10 rounded-lg transition-colors"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                  </svg>
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-xs font-medium text-gray-300">5/5 sur Google</span>
+                </a>
               </div>
 
               {/* Liens Services */}
               <div>
                 <h4 className="text-white font-semibold mb-3">Services</h4>
                 <ul className="space-y-2">
-                  <li><Link href="/services/sites" className="text-gray-400 hover:text-white transition-colors text-sm">Création de sites</Link></li>
-                  <li><Link href="/services/seo" className="text-gray-400 hover:text-white transition-colors text-sm">Référencement SEO</Link></li>
-                  <li><Link href="/services/apps" className="text-gray-400 hover:text-white transition-colors text-sm">Applications web</Link></li>
-                  <li><Link href="/services/automation" className="text-gray-400 hover:text-white transition-colors text-sm">Automatisation</Link></li>
+                  <li><Link href="/services/creation-site-internet" className="text-gray-400 hover:text-white transition-colors text-sm">Création de sites</Link></li>
+                  <li><Link href="/services/agence-seo" className="text-gray-400 hover:text-white transition-colors text-sm">Référencement SEO</Link></li>
+                  <li><Link href="/services/application-web" className="text-gray-400 hover:text-white transition-colors text-sm">Applications web</Link></li>
+                  <li><Link href="/services/automatisation" className="text-gray-400 hover:text-white transition-colors text-sm">Automatisation</Link></li>
                 </ul>
               </div>
 
@@ -1718,19 +2122,19 @@ export default function Home() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                     </svg>
-                    <span>Tours, France</span>
+                    <span>Rue de Clocheville, 37000 Tours</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <svg className="w-5 h-5 mt-0.5 text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                     </svg>
-                    <span>contact@kb-com.fr</span>
+                    <a href="mailto:contact@kb-com.fr" className="hover:text-white transition-colors">contact@kb-com.fr</a>
                   </li>
                   <li className="flex items-start gap-2">
                     <svg className="w-5 h-5 mt-0.5 text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                     </svg>
-                    <span>02 47 XX XX XX</span>
+                    <a href="tel:+33640631953" className="hover:text-white transition-colors">06 40 63 19 53</a>
                   </li>
                 </ul>
               </div>

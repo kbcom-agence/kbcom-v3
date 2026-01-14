@@ -36,6 +36,53 @@ export const metadata: Metadata = {
   },
 };
 
+// Schema.org Service pour les rich snippets Google
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Création de site internet sur mesure",
+  "name": "Création de Site Internet Professionnel",
+  "description": "Création de sites internet sur mesure pour artisans, TPE et PME. Sites vitrines, e-commerce et landing pages développés en Next.js pour des performances optimales.",
+  "provider": {
+    "@type": "ProfessionalService",
+    "@id": "https://kb-com.fr/#business",
+    "name": "KB-COM - Agence Web Tours",
+    "url": "https://kb-com.fr"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "France"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Offres Création de Sites",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "Site Vitrine One-Page",
+        "description": "Site vitrine simple et efficace sur une seule page",
+        "price": "690",
+        "priceCurrency": "EUR"
+      },
+      {
+        "@type": "Offer",
+        "name": "Site Vitrine Multi-Pages",
+        "description": "Site vitrine complet avec plusieurs pages",
+        "price": "1500",
+        "priceCurrency": "EUR"
+      },
+      {
+        "@type": "Offer",
+        "name": "Site E-commerce",
+        "description": "Boutique en ligne complète avec gestion des produits",
+        "price": "3000",
+        "priceCurrency": "EUR"
+      }
+    ]
+  },
+  "url": "https://kb-com.fr/services/creation-site-internet"
+};
+
 // Schema.org FAQPage pour les rich snippets Google
 const faqSchema = {
   "@context": "https://schema.org",
@@ -83,6 +130,10 @@ export default function CreationSiteInternetLayout({
 }) {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

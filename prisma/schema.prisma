@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Article {
+  id            Int      @id @default(autoincrement())
+  slug          String   @unique
+  title         String
+  titleAccent   String?
+  excerpt       String
+  content       String   @db.Text
+  category      String
+  categoryLabel String
+  authorName    String
+  authorRole    String
+  authorAvatar  String?
+  publishedAt   DateTime
+  readingTime   Int
+  image         String
+  imageAlt      String?
+  tags          String[]
+  featured      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Realisation {
+  id                Int      @id @default(autoincrement())
+  slug              String   @unique
+  name              String
+  nameAccent        String?
+  accentColor       String
+  client            String
+  industry          String
+  year              String
+  shortDescription  String
+  fullDescription   String   @db.Text
+  challenge         String   @db.Text
+  solution          String   @db.Text
+  results           String[]
+  testimonialQuote  String?
+  testimonialAuthor String?
+  testimonialRole   String?
+  image             String
+  imageAlt          String?
+  gallery           String[]
+  tags              String[]
+  technologies      String[]
+  serviceType       String
+  color             String
+  url               String?
+  featured          Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}

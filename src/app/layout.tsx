@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { Hedvig_Letters_Serif, Cormorant_Garamond } from "next/font/google";
-import { Header } from "@/components/layout";
+import { HeaderWrapper } from "@/components/layout";
 import "./globals.css";
 
 // Font serif artistique pour les accents
@@ -100,23 +100,27 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${GeistSans.variable} ${GeistMono.variable} ${hedvig.variable} ${cormorant.variable}`}>
       <body className="antialiased">
-        {/* Schema.org LocalBusiness */}
+        {/* Schema.org LocalBusiness avec AggregateRating */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "LocalBusiness",
+              "@type": "ProfessionalService",
               "@id": "https://kb-com.fr/#business",
               "name": "KB-COM - Agence Web Tours",
-              "image": "https://kb-com.fr/og-image.jpg",
-              "description": "Agence web à Tours spécialisée en création de sites internet, référencement SEO, développement d'applications web et automatisation.",
+              "alternateName": "KB-COM",
+              "image": [
+                "https://kb-com.fr/og-image.jpg",
+                "https://kb-com.fr/logo.png"
+              ],
+              "description": "Agence web à Tours spécialisée en création de sites internet sur mesure, référencement SEO, développement d'applications web et automatisation. Experts Next.js et React.",
               "url": "https://kb-com.fr",
               "telephone": "+33640631953",
               "email": "contact@kb-com.fr",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "Tours",
+                "streetAddress": "Rue de Clocheville",
                 "addressLocality": "Tours",
                 "addressRegion": "Centre-Val de Loire",
                 "postalCode": "37000",
@@ -127,21 +131,34 @@ export default function RootLayout({
                 "latitude": 47.394144,
                 "longitude": 0.68484
               },
-              "openingHoursSpecification": {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                "opens": "09:00",
-                "closes": "18:00"
-              },
+              "openingHoursSpecification": [
+                {
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                  "opens": "09:00",
+                  "closes": "18:00"
+                }
+              ],
               "priceRange": "€€",
+              "currenciesAccepted": "EUR",
+              "paymentAccepted": "Virement bancaire, Carte bancaire",
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1",
+                "ratingCount": "20",
+                "reviewCount": "20"
+              },
               "sameAs": [
-                "https://www.linkedin.com/company/kb-com",
-                "https://www.instagram.com/kbcom.fr"
+                "https://www.linkedin.com/in/kevin-boutant/",
+                "https://www.instagram.com/agence.kbcom/"
               ],
               "areaServed": [
                 {
                   "@type": "City",
-                  "name": "Tours"
+                  "name": "Tours",
+                  "sameAs": "https://fr.wikipedia.org/wiki/Tours"
                 },
                 {
                   "@type": "AdministrativeArea",
@@ -152,16 +169,68 @@ export default function RootLayout({
                   "name": "France"
                 }
               ],
-              "serviceType": [
+              "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Services KB-COM",
+                "itemListElement": [
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "Création de site internet sur mesure",
+                      "description": "Sites vitrines et e-commerce performants en Next.js",
+                      "url": "https://kb-com.fr/services/creation-site-internet"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "Référencement SEO",
+                      "description": "Audit SEO, optimisation on-page et stratégie de contenu",
+                      "url": "https://kb-com.fr/services/agence-seo"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "Développement application web",
+                      "description": "Applications web sur mesure, SaaS et dashboards",
+                      "url": "https://kb-com.fr/services/application-web"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "Automatisation",
+                      "description": "Automatisation des processus avec Make, n8n et IA",
+                      "url": "https://kb-com.fr/services/automatisation"
+                    }
+                  }
+                ]
+              },
+              "knowsAbout": [
                 "Création de sites internet",
                 "Référencement SEO",
-                "Développement d'applications web",
-                "Automatisation"
-              ]
+                "Next.js",
+                "React",
+                "Développement web",
+                "Automatisation",
+                "Make",
+                "n8n"
+              ],
+              "slogan": "Votre agence web à Tours pour des sites exceptionnels",
+              "foundingDate": "2021",
+              "numberOfEmployees": {
+                "@type": "QuantitativeValue",
+                "value": "1-5"
+              }
             })
           }}
         />
-        <Header />
+        <HeaderWrapper />
         {children}
       </body>
     </html>

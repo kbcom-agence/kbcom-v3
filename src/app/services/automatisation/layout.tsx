@@ -36,6 +36,47 @@ export const metadata: Metadata = {
   },
 };
 
+// Schema.org Service pour les rich snippets Google
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Automatisation des processus entreprise",
+  "name": "Automatisation & Workflows Intelligents",
+  "description": "Automatisation des processus entreprise avec Make, n8n et IA. Gagnez du temps, réduisez les erreurs et boostez votre productivité grâce à des workflows intelligents.",
+  "provider": {
+    "@type": "ProfessionalService",
+    "@id": "https://kb-com.fr/#business",
+    "name": "KB-COM - Agence Web Tours",
+    "url": "https://kb-com.fr"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "France"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Offres Automatisation",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "Audit des Processus",
+        "description": "Cartographie et identification des tâches automatisables"
+      },
+      {
+        "@type": "Offer",
+        "name": "Workflow Simple",
+        "description": "Automatisation d'un processus unique avec Make ou n8n"
+      },
+      {
+        "@type": "Offer",
+        "name": "Automatisation Complète",
+        "description": "Suite de workflows interconnectés avec intégration IA"
+      }
+    ]
+  },
+  "url": "https://kb-com.fr/services/automatisation"
+};
+
 // Schema.org FAQPage pour les rich snippets Google
 const faqSchema = {
   "@context": "https://schema.org",
@@ -83,6 +124,10 @@ export default function AutomatisationLayout({
 }) {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

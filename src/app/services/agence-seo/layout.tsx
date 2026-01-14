@@ -36,6 +36,47 @@ export const metadata: Metadata = {
   },
 };
 
+// Schema.org Service pour les rich snippets Google
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Consultant SEO Technique",
+  "name": "Référencement SEO & Audit Technique",
+  "description": "Consultant SEO technique pour améliorer votre visibilité Google. Audit SEO complet, optimisation on-page, stratégie de contenu et suivi des positions.",
+  "provider": {
+    "@type": "ProfessionalService",
+    "@id": "https://kb-com.fr/#business",
+    "name": "KB-COM - Agence Web Tours",
+    "url": "https://kb-com.fr"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "France"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Offres SEO",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "Audit SEO Complet",
+        "description": "Analyse technique approfondie de votre site avec recommandations"
+      },
+      {
+        "@type": "Offer",
+        "name": "Optimisation On-Page",
+        "description": "Optimisation des balises, du contenu et de la structure technique"
+      },
+      {
+        "@type": "Offer",
+        "name": "Suivi SEO Mensuel",
+        "description": "Accompagnement continu avec reporting et amélioration continue"
+      }
+    ]
+  },
+  "url": "https://kb-com.fr/services/agence-seo"
+};
+
 // Schema.org FAQPage pour les rich snippets Google
 const faqSchema = {
   "@context": "https://schema.org",
@@ -83,6 +124,10 @@ export default function AgenceSeoLayout({
 }) {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

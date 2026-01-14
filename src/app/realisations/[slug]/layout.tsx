@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
-import { realisations, getRealisationBySlug } from "@/data/realisations";
+import prisma from "@/lib/prisma";
 
 // Générer les métadonnées dynamiquement
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const realisation = getRealisationBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+
+  const realisation = await prisma.realisation.findUnique({
+    where: { slug }
+  });
 
   if (!realisation) {
     return {
@@ -21,14 +25,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       description: realisation.shortDescription,
       url: `https://kb-com.fr/realisations/${realisation.slug}`,
       type: "article",
-      images: [
+      images: realisation.image ? [
         {
           url: realisation.image,
           width: 1200,
           height: 630,
-          alt: `${fullName} - Projet KB-COM`,
+          alt: realisation.imageAlt || `${fullName} - Projet KB-COM`,
         },
-      ],
+      ] : [],
     },
     alternates: {
       canonical: `https://kb-com.fr/realisations/${realisation.slug}`,
@@ -38,6 +42,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 // Générer les params statiques pour le build
 export async function generateStaticParams() {
+  const realisations = await prisma.realisation.findMany({
+    select: { slug: true }
+  });
+
   return realisations.map((realisation) => ({
     slug: realisation.slug,
   }));

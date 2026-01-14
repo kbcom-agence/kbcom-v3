@@ -42,3 +42,16 @@ next-env.d.ts
 # IDE
 .idea
 .vscode
+
+# Prisma
+/src/generated/prisma
+
+# Claude Code
+.claude/
+.mcp.json
+tmpclaude-*
+claude-code-*/
+
+# Temp files
+temp_*.txt
+nul

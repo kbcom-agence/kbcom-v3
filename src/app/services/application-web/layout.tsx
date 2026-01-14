@@ -36,6 +36,53 @@ export const metadata: Metadata = {
   },
 };
 
+// Schema.org Service pour les rich snippets Google
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Développement application web sur mesure",
+  "name": "Développement d'Applications Web",
+  "description": "Développement d'applications web sur mesure : SaaS, dashboards, outils métier. Technologies modernes React & Next.js pour des solutions performantes et évolutives.",
+  "provider": {
+    "@type": "ProfessionalService",
+    "@id": "https://kb-com.fr/#business",
+    "name": "KB-COM - Agence Web Tours",
+    "url": "https://kb-com.fr"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "France"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Offres Application Web",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "MVP / Application Simple",
+        "description": "Application web basique avec fonctionnalités essentielles",
+        "price": "5000",
+        "priceCurrency": "EUR"
+      },
+      {
+        "@type": "Offer",
+        "name": "Application Métier",
+        "description": "Application complète avec dashboard et gestion avancée",
+        "price": "15000",
+        "priceCurrency": "EUR"
+      },
+      {
+        "@type": "Offer",
+        "name": "Plateforme SaaS",
+        "description": "Solution SaaS complète avec multi-tenancy et facturation",
+        "price": "50000",
+        "priceCurrency": "EUR"
+      }
+    ]
+  },
+  "url": "https://kb-com.fr/services/application-web"
+};
+
 // Schema.org FAQPage pour les rich snippets Google
 const faqSchema = {
   "@context": "https://schema.org",
@@ -83,6 +130,10 @@ export default function ApplicationWebLayout({
 }) {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
